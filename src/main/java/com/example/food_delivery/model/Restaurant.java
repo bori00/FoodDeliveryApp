@@ -33,4 +33,7 @@ public class Restaurant {
     )
     private Set<DeliveryZone> availableDelieveryZones;
 
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private Set<Food> foods;
+
 }

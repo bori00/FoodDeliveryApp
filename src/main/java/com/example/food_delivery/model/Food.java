@@ -8,16 +8,24 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name="delivery_zone")
+@Table(name="food")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class DeliveryZone {
+public class Food {
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
     @Column(nullable = false, unique = true, length = 50)
     private String name;
+
+    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "food_category_id", referencedColumnName = "Id")
+    private FoodCategory foodCategory;
+
+    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "restaurant_id", referencedColumnName = "Id")
+    private Restaurant restaurant;
 }

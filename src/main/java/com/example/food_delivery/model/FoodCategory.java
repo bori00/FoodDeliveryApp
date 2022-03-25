@@ -8,12 +8,12 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name="delivery_zone")
+@Table(name="food_category")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class DeliveryZone {
+public class FoodCategory {
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
