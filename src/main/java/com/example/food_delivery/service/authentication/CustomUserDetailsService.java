@@ -1,4 +1,5 @@
 package com.example.food_delivery.service.authentication;
+
 import com.example.food_delivery.model.User;
 import com.example.food_delivery.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

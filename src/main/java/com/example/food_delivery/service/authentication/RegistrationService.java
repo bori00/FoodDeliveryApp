@@ -5,9 +5,10 @@ import com.example.food_delivery.model.User;
 import com.example.food_delivery.repository.UserRepository;
 import com.example.food_delivery.service.authentication.exceptions.DuplicateUsernameException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 
@@ -16,6 +17,9 @@ public class RegistrationService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     public void register(UserDTO userDTO) throws DuplicateUsernameException {
         System.out.println(userDTO);
@@ -27,7 +31,7 @@ public class RegistrationService {
         }
 
         // save new user
-        User user = UserFactory.buildUser(userDTO);
+        User user = UserFactory.buildUser(userDTO, passwordEncoder);
         userRepository.save(user);
     }
 }
