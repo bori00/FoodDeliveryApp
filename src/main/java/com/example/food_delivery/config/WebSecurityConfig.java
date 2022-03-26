@@ -1,6 +1,6 @@
 package com.example.food_delivery.config;
 
-import com.example.food_delivery.service.CustomUserDetailsService;
+import com.example.food_delivery.service.authentication.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,15 +25,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/register_and_redirect", "/register_success",
-                        "/register", "/go_to_registration",
-                        "/webjars/**")
-                    .permitAll()
+                .antMatchers("/register")
+                .permitAll()
                 .anyRequest()
-                    .authenticated();
+                .authenticated();
         http.formLogin()
                 .usernameParameter("userName")
                 .defaultSuccessUrl("/")
@@ -42,6 +41,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
                 .permitAll();
+        http       // todo: not an elegant solution...
+                .csrf().disable();
     }
 
     @Bean
