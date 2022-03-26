@@ -1,19 +1,21 @@
 package com.example.food_delivery.service.restaurant_management;
 
+import com.example.food_delivery.model.*;
+import com.example.food_delivery.model.DTO.FoodDTO;
 import com.example.food_delivery.model.DTO.RestaurantDTO;
-import com.example.food_delivery.model.DeliveryZone;
-import com.example.food_delivery.model.Restaurant;
-import com.example.food_delivery.model.RestaurantAdmin;
 import com.example.food_delivery.repository.DeliveryZoneRepository;
+import com.example.food_delivery.repository.FoodCategoryRepository;
+import com.example.food_delivery.repository.FoodRepository;
 import com.example.food_delivery.repository.RestaurantRepository;
 import com.example.food_delivery.service.authentication.AuthenticationService;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
-import com.example.food_delivery.service.restaurant_management.exceptions.DuplicateRestaurantNameException;
-import com.example.food_delivery.service.restaurant_management.exceptions.MissingAvailableDeliveryZoneException;
-import com.example.food_delivery.service.restaurant_management.exceptions.MoreThanOneRestaurantPerAdminException;
+import com.example.food_delivery.service.restaurant_management.exceptions.*;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.management.modelmbean.ModelMBean;
 import java.util.Optional;
 import java.util.Set;
 
@@ -28,6 +30,15 @@ public class RestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    @Autowired
+    private FoodCategoryRepository foodCategoryRepository;
+
+    @Autowired
+    private FoodRepository foodRepository;
+
+    @Autowired
+    private ModelMapper mapper;
+
     public void createRestaurant(RestaurantDTO restaurantDTO) throws AccessRestrictedToAdminsException, MissingAvailableDeliveryZoneException, DuplicateRestaurantNameException, MoreThanOneRestaurantPerAdminException {
         // get active user
         RestaurantAdmin admin = authenticationService.getCurrentAdmin();
@@ -37,9 +48,9 @@ public class RestaurantService {
             throw new MoreThanOneRestaurantPerAdminException();
         }
 
+        // find available delivery zones, ensure that there's at least one of them
         Set<DeliveryZone> deliveryZones =
                 deliveryZoneRepository.findAllByNameIn(restaurantDTO.getAvailableDeliveryZones());
-
         if (deliveryZones.isEmpty()) {
             throw new MissingAvailableDeliveryZoneException();
         }
@@ -51,12 +62,39 @@ public class RestaurantService {
             throw new DuplicateRestaurantNameException();
         }
 
+        // save restaurant
         Restaurant restaurant = new Restaurant(restaurantDTO.getName(),
                 restaurantDTO.getAddress(),
                 admin,
                 deliveryZones);
-
         restaurantRepository.save(restaurant);
+    }
 
+    public void addFoodToMenu(FoodDTO foodDTO) throws AccessRestrictedToAdminsException, InvalidFoodCategoryException, DuplicateFoodNameInsideRestaurantException, NoRestaurantSetupForAdminException {
+        // get active user
+        RestaurantAdmin admin = authenticationService.getCurrentAdmin();
+
+        // get the restaurant of the active user
+        Restaurant restaurant = admin.getRestaurant();
+        if (restaurant == null) {
+            throw new NoRestaurantSetupForAdminException();
+        }
+
+        // get the food category
+        Optional<FoodCategory> optFoodCategory =
+                foodCategoryRepository.findByName(foodDTO.getFoodCategory());
+        if (optFoodCategory.isEmpty()) {
+            throw new InvalidFoodCategoryException();
+        }
+
+        // check that there is no menu item with the same name in the restaurant
+        if (restaurant.getFoods().stream().anyMatch(food -> food.getName().equals(foodDTO.getName()))) {
+            throw new DuplicateFoodNameInsideRestaurantException();
+        }
+
+        Food food = new Food(foodDTO.getName(), foodDTO.getPrice(), foodDTO.getDescription(),
+                optFoodCategory.get(), restaurant);
+
+        foodRepository.save(food);
     }
 }

@@ -3,9 +3,7 @@ package com.example.food_delivery.controller;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
 import com.example.food_delivery.service.authentication.exceptions.AuthenticationRequiredException;
 import com.example.food_delivery.service.authentication.exceptions.DuplicateUsernameException;
-import com.example.food_delivery.service.restaurant_management.exceptions.DuplicateRestaurantNameException;
-import com.example.food_delivery.service.restaurant_management.exceptions.MissingAvailableDeliveryZoneException;
-import com.example.food_delivery.service.restaurant_management.exceptions.MoreThanOneRestaurantPerAdminException;
+import com.example.food_delivery.service.restaurant_management.exceptions.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -96,5 +94,31 @@ public class GlobalControllerExceptionHandler {
             Exception ex) {
         return new ExceptionResponse(List.of("You can't have a second restaurant for the same " +
                 "account."));
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)  // 403
+    @ExceptionHandler(InvalidFoodCategoryException.class)
+    public @ResponseBody
+    ExceptionResponse handleInvalidFoodCategoryException(
+            Exception ex) {
+        return new ExceptionResponse(List.of("The requested food category doesn't exist."));
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)  // 403
+    @ExceptionHandler(DuplicateFoodNameInsideRestaurantException.class)
+    public @ResponseBody
+    ExceptionResponse handleDuplicateFoodNameInsideRestaurantException(
+            Exception ex) {
+        return new ExceptionResponse(List.of("There is another menu item with the same name in " +
+                "your restaurant. Please choose another name."));
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)  // 403
+    @ExceptionHandler(NoRestaurantSetupForAdminException.class)
+    public @ResponseBody
+    ExceptionResponse handleMissingRestaurantForAdminException(
+            Exception ex) {
+        return new ExceptionResponse(List.of("You must first add your restaurant before adding " +
+                "menu items."));
     }
 }

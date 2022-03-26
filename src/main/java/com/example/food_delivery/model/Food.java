@@ -18,13 +18,13 @@ public class Food {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(nullable = false, length = 50)
     private String name;
 
     @Column(nullable = false)
     private Double price;
 
-    @Column(nullable = false, length = 200)
+    @Column(length = 200)
     private String description;
 
     @ManyToOne(optional = false, cascade = CascadeType.MERGE)
@@ -34,4 +34,12 @@ public class Food {
     @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "restaurant_id", referencedColumnName = "Id")
     private Restaurant restaurant;
+
+    public Food(String name, Double price, String description, FoodCategory foodCategory, Restaurant restaurant) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.foodCategory = foodCategory;
+        this.restaurant = restaurant;
+    }
 }
