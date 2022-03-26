@@ -3,6 +3,8 @@ package com.example.food_delivery.model.DTO;
 import com.example.food_delivery.model.FoodCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,18 +17,20 @@ import javax.validation.constraints.Size;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
+@Setter
 public class FoodDTO {
     @NotBlank(message = "The name of a menu item cannot be blank.")
     @Size(min = 3, max = 50, message = "The name of a menu item must have a length between 3 and " +
             "50")
-    private final String name;
+    private String name;
 
     @Positive
-    private final Double price;
+    private Double price;
 
     @Size(max = 200, message = "The description of a menu item can be at most 200 characters long.")
-    private final String description;
+    private String description;
 
     @NotBlank
-    private final String foodCategory;
+    private String foodCategory;
 }

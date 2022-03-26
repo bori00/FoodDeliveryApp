@@ -10,14 +10,18 @@ import com.example.food_delivery.repository.RestaurantRepository;
 import com.example.food_delivery.service.authentication.AuthenticationService;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
 import com.example.food_delivery.service.restaurant_management.exceptions.*;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.management.modelmbean.ModelMBean;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class RestaurantService {
@@ -92,9 +96,23 @@ public class RestaurantService {
             throw new DuplicateFoodNameInsideRestaurantException();
         }
 
-        Food food = new Food(foodDTO.getName(), foodDTO.getPrice(), foodDTO.getDescription(),
-                optFoodCategory.get(), restaurant);
+        Food food = mapper.map(foodDTO, Food.class);
+        food.setFoodCategory(optFoodCategory.get());
+        food.setRestaurant(restaurant);
 
         foodRepository.save(food);
+    }
+
+    public List<FoodDTO> getActiveAdminsRestaurantsMenu() throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
+        // get active user
+        RestaurantAdmin admin = authenticationService.getCurrentAdmin();
+
+        // get the restaurant of the active user
+        Restaurant restaurant = admin.getRestaurant();
+        if (restaurant == null) {
+            throw new NoRestaurantSetupForAdminException();
+        }
+
+        return restaurant.getFoods().stream().map(food -> mapper.map(food, FoodDTO.class)).collect(Collectors.toList());
     }
 }

@@ -118,7 +118,7 @@ public class GlobalControllerExceptionHandler {
     public @ResponseBody
     ExceptionResponse handleMissingRestaurantForAdminException(
             Exception ex) {
-        return new ExceptionResponse(List.of("You must first add your restaurant before adding " +
-                "menu items."));
+        return new ExceptionResponse(List.of("You must first set up your restaurant before " +
+                "accessing this functionality."));
     }
 }
