@@ -20,6 +20,9 @@ public class Customer extends User {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private Set<FoodOrder> orders;
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Set<CartItem> cartItems;
+
     public Customer(String userName, String password) {
         super(userName, password);
     }

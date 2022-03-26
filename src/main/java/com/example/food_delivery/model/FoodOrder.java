@@ -32,7 +32,7 @@ public class FoodOrder {
     @JoinColumn(name = "restaurant_id", referencedColumnName = "Id")
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "foodOrder", cascade = CascadeType.ALL)
     private Set<OrderItem> orderItems;
 
     public enum OrderStatus {
