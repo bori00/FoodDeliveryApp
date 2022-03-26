@@ -21,6 +21,9 @@ public class Food {
     @Column(nullable = false, unique = true, length = 50)
     private String name;
 
+    @Column(nullable = false)
+    private Double price;
+
     @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "food_category_id", referencedColumnName = "Id")
     private FoodCategory foodCategory;
