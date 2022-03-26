@@ -27,4 +27,9 @@ public abstract class User {
         this.userName = userName;
         this.password = password;
     }
+
+    public static enum UserType {
+        ADMIN,
+        CUSTOMER
+    }
 }

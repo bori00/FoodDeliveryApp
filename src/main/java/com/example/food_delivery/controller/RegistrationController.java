@@ -2,11 +2,9 @@ package com.example.food_delivery.controller;
 
 import com.example.food_delivery.model.DTO.UserDTO;
 import com.example.food_delivery.service.authentication.RegistrationService;
+import com.example.food_delivery.service.authentication.exceptions.DuplicateUsernameException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -22,10 +20,9 @@ public class RegistrationController {
     private RegistrationService registrationService;
 
     @PostMapping("/register")
-    ResponseEntity<String> register(@Valid @RequestBody UserDTO userDTO) {
-        System.out.println(userDTO);
+    @ResponseStatus(HttpStatus.OK)
+    void register(@Valid @RequestBody UserDTO userDTO) throws DuplicateUsernameException {
         registrationService.register(userDTO);
-        return ResponseEntity.ok("Registration Successful");
     }
 
 }

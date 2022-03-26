@@ -35,7 +35,7 @@ public class Restaurant {
             joinColumns = { @JoinColumn(name = "restaurant_id") },
             inverseJoinColumns = { @JoinColumn(name = "delivery_zone_id") }
     )
-    private Set<DeliveryZone> availableDelieveryZones;
+    private Set<DeliveryZone> availableDeliveryZones;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private Set<Food> foods;

@@ -25,7 +25,6 @@ public class GlobalControllerExceptionHandler {
     @Getter
     @AllArgsConstructor
     public static class ExceptionResponse {
-
         private final List<String> messages;
     }
 
@@ -42,10 +41,11 @@ public class GlobalControllerExceptionHandler {
                         .collect(Collectors.toList()));
     }
 
-//    @ResponseStatus(HttpStatus.FORBIDDEN)  // 403
-//    @ExceptionHandler(DuplicateUsernameException.class)
-//    public @ResponseBody ExceptionResponse handleDuplicateUsernameException(
-//            Exception ex) {
-//        return new ExceptionResponse("This username is already taken. Please specify another one!");
-//    }
+    @ResponseStatus(HttpStatus.FORBIDDEN)  // 403
+    @ExceptionHandler(DuplicateUsernameException.class)
+    public @ResponseBody ExceptionResponse handleDuplicateUsernameException(
+            Exception ex) {
+        return new ExceptionResponse(List.of("This username is already taken. Please specify " +
+                "another one!"));
+    }
 }
