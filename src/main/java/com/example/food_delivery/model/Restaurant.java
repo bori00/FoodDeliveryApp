@@ -25,6 +25,10 @@ public class Restaurant {
     @Column(nullable = false, length = 500)
     private String address;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "admin_id", referencedColumnName = "id")
+    private RestaurantAdmin admin;
+
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "available_delivery_zones",
@@ -35,5 +39,8 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private Set<Food> foods;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private Set<FoodOrder> orders;
 
 }
