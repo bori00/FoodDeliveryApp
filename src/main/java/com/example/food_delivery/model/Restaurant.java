@@ -29,11 +29,11 @@ public class Restaurant {
     @JoinColumn(name = "admin_id", referencedColumnName = "id")
     private RestaurantAdmin admin;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "available_delivery_zones",
-            joinColumns = { @JoinColumn(name = "restaurant_id") },
-            inverseJoinColumns = { @JoinColumn(name = "delivery_zone_id") }
+            joinColumns = {@JoinColumn(name = "restaurant_id")},
+            inverseJoinColumns = {@JoinColumn(name = "delivery_zone_id")}
     )
     private Set<DeliveryZone> availableDeliveryZones;
 
@@ -43,4 +43,10 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private Set<FoodOrder> orders;
 
+    public Restaurant(String name, String address, RestaurantAdmin admin, Set<DeliveryZone> availableDeliveryZones) {
+        this.name = name;
+        this.address = address;
+        this.admin = admin;
+        this.availableDeliveryZones = availableDeliveryZones;
+    }
 }

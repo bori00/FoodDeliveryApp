@@ -4,14 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.criterion.Order;
 
 import javax.persistence.*;
 import java.util.Set;
 import java.util.stream.Stream;
 
 @Entity
-@Table(name="food_order")
+@Table(name = "food_order")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

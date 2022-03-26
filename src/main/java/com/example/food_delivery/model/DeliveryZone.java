@@ -8,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name="delivery_zone")
+@Table(name = "delivery_zone")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
