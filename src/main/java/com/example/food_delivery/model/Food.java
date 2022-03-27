@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "food")
@@ -34,6 +35,9 @@ public class Food {
     @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "restaurant_id", referencedColumnName = "Id")
     private Restaurant restaurant;
+
+    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
+    private Set<CartItem> cartItems;
 
     public Food(String name, Double price, String description, FoodCategory foodCategory, Restaurant restaurant) {
         this.name = name;

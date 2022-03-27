@@ -1,8 +1,11 @@
 package com.example.food_delivery.controller;
 
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
+import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToCustomersException;
 import com.example.food_delivery.service.authentication.exceptions.AuthenticationRequiredException;
 import com.example.food_delivery.service.authentication.exceptions.DuplicateUsernameException;
+import com.example.food_delivery.service.cart.exceptions.CartItemsFromMultipleRestaurantsException;
+import com.example.food_delivery.service.cart.exceptions.FoodNotFoundException;
 import com.example.food_delivery.service.food_browsing.RestaurantNotFoundException;
 import com.example.food_delivery.service.restaurant_management.exceptions.*;
 import lombok.AllArgsConstructor;
@@ -66,7 +69,16 @@ public class GlobalControllerExceptionHandler {
     public @ResponseBody
     ExceptionResponse handleAccessRestrictedToAdminsException(
             Exception ex) {
-        return new ExceptionResponse(List.of("You must be a Restaurant Admin to acess this " +
+        return new ExceptionResponse(List.of("You must be a Restaurant Admin to access this " +
+                "functionality!"));
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)  // 401
+    @ExceptionHandler(AccessRestrictedToCustomersException.class)
+    public @ResponseBody
+    ExceptionResponse handleAccessRestrictedToCustomersException(
+            Exception ex) {
+        return new ExceptionResponse(List.of("You must be a Customer to access this " +
                 "functionality!"));
     }
 
@@ -130,5 +142,23 @@ public class GlobalControllerExceptionHandler {
             Exception ex) {
         return new ExceptionResponse(List.of("The restaurant with the requested name was not " +
                 "found."));
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(FoodNotFoundException.class)
+    public @ResponseBody
+    ExceptionResponse handleFoodNotFoundException(
+            Exception ex) {
+        return new ExceptionResponse(List.of("The food with the requested name was not " +
+                "found."));
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(CartItemsFromMultipleRestaurantsException.class)
+    public @ResponseBody
+    ExceptionResponse handleCartItemsFromMultipleRestaurantsException(
+            Exception ex) {
+        return new ExceptionResponse(List.of("You cannot place menu items from different " +
+                "restaurants in your cart."));
     }
 }

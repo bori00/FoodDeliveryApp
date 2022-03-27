@@ -1,5 +1,6 @@
 package com.example.food_delivery.service.authentication;
 
+import com.example.food_delivery.model.Customer;
 import com.example.food_delivery.model.RestaurantAdmin;
 import com.example.food_delivery.model.User;
 import com.example.food_delivery.repository.AdminRepository;
@@ -40,6 +41,16 @@ public class AuthenticationService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<RestaurantAdmin> optUser =
                 adminRepository.findByUserName(((CustomUserDetailsService.CustomUserDetails) auth.getPrincipal()).getUsername());
+        if (optUser.isEmpty()) {
+            throw new AccessRestrictedToAdminsException();
+        }
+        return optUser.get();
+    }
+
+    public Customer getCurrentCustomer() throws AccessRestrictedToAdminsException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<Customer> optUser =
+                customerRepository.findByUserName(((CustomUserDetailsService.CustomUserDetails) auth.getPrincipal()).getUsername());
         if (optUser.isEmpty()) {
             throw new AccessRestrictedToAdminsException();
         }

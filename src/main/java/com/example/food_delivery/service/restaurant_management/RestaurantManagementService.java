@@ -24,7 +24,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class RestaurantService {
+public class RestaurantManagementService {
     @Autowired
     private AuthenticationService authenticationService;
 
