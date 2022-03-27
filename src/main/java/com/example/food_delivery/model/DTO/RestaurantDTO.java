@@ -1,8 +1,6 @@
 package com.example.food_delivery.model.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
 import javax.persistence.Access;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +10,8 @@ import java.util.Set;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
+@Setter
 public class RestaurantDTO {
     @NotBlank(message = "The restaurant's name cannot be blank.")
     @Size(min = 3, max = 50, message = "The restaurant's name should have a length between 3 and " +
@@ -23,6 +23,5 @@ public class RestaurantDTO {
             "and 500")
     private String address;
 
-    @NotEmpty(message = "Each restaurant should have at least one available delivery zone.")
     private Set<String> availableDeliveryZones;
 }

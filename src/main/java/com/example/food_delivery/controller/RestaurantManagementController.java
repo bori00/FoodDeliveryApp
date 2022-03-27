@@ -3,7 +3,7 @@ package com.example.food_delivery.controller;
 import com.example.food_delivery.model.DTO.FoodDTO;
 import com.example.food_delivery.model.DTO.RestaurantDTO;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
-import com.example.food_delivery.service.restaurant_management.RestaurantService;
+import com.example.food_delivery.service.restaurant_management.RestaurantManagementService;
 import com.example.food_delivery.service.restaurant_management.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,23 +15,23 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-public class RestaurantController {
+public class RestaurantManagementController {
 
     @Autowired
-    private RestaurantService restaurantService;
+    private RestaurantManagementService restaurantManagementService;
 
     @PostMapping("/add_restaurant")
     public void addRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) throws AccessRestrictedToAdminsException, MissingAvailableDeliveryZoneException, DuplicateRestaurantNameException, MoreThanOneRestaurantPerAdminException {
-        restaurantService.createRestaurant(restaurantDTO);
+        restaurantManagementService.createRestaurant(restaurantDTO);
     }
 
     @PostMapping("/add_food_to_menu")
     public void addFoodToMenu(@Valid @RequestBody FoodDTO foodDTO) throws AccessRestrictedToAdminsException, InvalidFoodCategoryException, DuplicateFoodNameInsideRestaurantException, NoRestaurantSetupForAdminException {
-        restaurantService.addFoodToMenu(foodDTO);
+        restaurantManagementService.addFoodToMenu(foodDTO);
     }
 
     @GetMapping("/get_my_menu")
     public List<FoodDTO> getActiveAdminsRestaurantsMenu() throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
-        return restaurantService.getActiveAdminsRestaurantsMenu();
+        return restaurantManagementService.getActiveAdminsRestaurantsMenu();
     }
 }
