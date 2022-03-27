@@ -1,6 +1,8 @@
 package com.example.food_delivery.service.customer_order_management;
 
 import com.example.food_delivery.model.*;
+import com.example.food_delivery.model.DTO.CustomerOrderDTO;
+import com.example.food_delivery.model.DTO.FoodDTO;
 import com.example.food_delivery.repository.CartItemRepository;
 import com.example.food_delivery.repository.FoodOrderRepository;
 import com.example.food_delivery.service.authentication.AuthenticationService;
@@ -8,12 +10,14 @@ import com.example.food_delivery.service.authentication.exceptions.AccessRestric
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToCustomersException;
 import com.example.food_delivery.service.cart.exceptions.CartItemsFromMultipleRestaurantsException;
 import com.example.food_delivery.service.customer_order_management.exceptions.EmptyOrderException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.AbstractMap;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,6 +33,9 @@ public class CustomerOrdersService {
 
     @Autowired
     private CartItemRepository cartItemRepository;
+
+    @Autowired
+    private ModelMapper mapper;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void placeOrder() throws EmptyOrderException, CartItemsFromMultipleRestaurantsException, AccessRestrictedToCustomersException {
@@ -70,5 +77,27 @@ public class CustomerOrdersService {
 
         // delete cartItems
         cartItemRepository.deleteAlllByCustomer(customer);
+    }
+
+    public List<CustomerOrderDTO> getActiveCustomersOrderHistory() throws AccessRestrictedToCustomersException {
+        // find the user
+        Customer customer = authenticationService.getCurrentCustomer();
+
+        return customer
+                .getOrders()
+                .stream()
+                .map(order -> new CustomerOrderDTO(
+                        order.getRestaurant().getName(),
+                        order.getOrderStatus().toString(),
+                        order.getOrderItems().stream()
+                                .map(orderItem ->
+                                        new AbstractMap.SimpleEntry<>(
+                                                mapper.map(orderItem.getFood(), FoodDTO.class),
+                                                orderItem.getQuantity()
+                                        ))
+                                .collect(Collectors.toMap(
+                                        AbstractMap.SimpleEntry::getKey,
+                                        AbstractMap.SimpleEntry::getValue))))
+                .collect(Collectors.toList());
     }
 }
