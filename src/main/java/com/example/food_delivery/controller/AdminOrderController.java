@@ -4,15 +4,16 @@ import com.example.food_delivery.model.DTO.AdminOrderDTO;
 import com.example.food_delivery.model.DTO.CustomerOrderDTO;
 import com.example.food_delivery.model.FoodOrder;
 import com.example.food_delivery.service.admin_order_management.AdminOrderService;
+import com.example.food_delivery.service.admin_order_management.exceptions.RequestedOrderNotFoundException;
+import com.example.food_delivery.service.admin_order_management.order_states.exceptions.InvalidOrderStatusChangeException;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToCustomersException;
 import com.example.food_delivery.service.restaurant_management.exceptions.NoRestaurantSetupForAdminException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,5 +33,29 @@ public class AdminOrderController {
     @GetMapping("/see_restaurants_orders")
     public List<AdminOrderDTO> getRestaurantsOrders() throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
         return adminOrderService.getFilteredRestaurantsOrders(Arrays.asList(FoodOrder.OrderStatus.values()));
+    }
+
+    @PostMapping("/accept_order")
+    public void acceptOrder(@Valid @NotNull @RequestBody Long orderId) throws InvalidOrderStatusChangeException,
+            RequestedOrderNotFoundException, AccessRestrictedToAdminsException {
+        adminOrderService.updateOrderState(orderId, FoodOrder.OrderStatus.ACCEPTED);
+    }
+
+    @PostMapping("/decline_order")
+    public void declineOrder(@Valid @NotNull @RequestBody Long orderId) throws InvalidOrderStatusChangeException,
+            RequestedOrderNotFoundException, AccessRestrictedToAdminsException {
+        adminOrderService.updateOrderState(orderId, FoodOrder.OrderStatus.DECLINED);
+    }
+
+    @PostMapping("/start_order_delivery")
+    public void startOrderDelivery(@Valid @NotNull @RequestBody Long orderId) throws InvalidOrderStatusChangeException,
+            RequestedOrderNotFoundException, AccessRestrictedToAdminsException {
+        adminOrderService.updateOrderState(orderId, FoodOrder.OrderStatus.IN_DELIVERY);
+    }
+
+    @PostMapping("/finish_order_delivery")
+    public void finishOrderDelivery(@Valid @NotNull @RequestBody Long orderId) throws InvalidOrderStatusChangeException,
+            RequestedOrderNotFoundException, AccessRestrictedToAdminsException {
+        adminOrderService.updateOrderState(orderId, FoodOrder.OrderStatus.DELIVERED);
     }
 }

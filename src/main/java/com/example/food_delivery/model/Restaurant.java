@@ -49,4 +49,14 @@ public class Restaurant {
         this.admin = admin;
         this.availableDeliveryZones = availableDeliveryZones;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Restaurant that = (Restaurant) o;
+
+        return name != null ? name.equals(that.name) : that.name == null;
+    }
 }

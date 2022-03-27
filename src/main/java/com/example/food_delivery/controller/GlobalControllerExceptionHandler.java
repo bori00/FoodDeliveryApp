@@ -1,5 +1,7 @@
 package com.example.food_delivery.controller;
 
+import com.example.food_delivery.service.admin_order_management.exceptions.RequestedOrderNotFoundException;
+import com.example.food_delivery.service.admin_order_management.order_states.exceptions.InvalidOrderStatusChangeException;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToCustomersException;
 import com.example.food_delivery.service.authentication.exceptions.AuthenticationRequiredException;
@@ -70,7 +72,7 @@ public class GlobalControllerExceptionHandler {
     public @ResponseBody
     ExceptionResponse handleAccessRestrictedToAdminsException(
             Exception ex) {
-        return new ExceptionResponse(List.of("You must be a Restaurant Admin to access this " +
+        return new ExceptionResponse(List.of("You must be the Restaurant Admin to access this " +
                 "functionality!"));
     }
 
@@ -171,5 +173,19 @@ public class GlobalControllerExceptionHandler {
         return new ExceptionResponse(List.of("You cannot place an empty order."));
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RequestedOrderNotFoundException.class)
+    public @ResponseBody
+    ExceptionResponse handleRequestedOrderNotFoundException(
+            Exception ex) {
+        return new ExceptionResponse(List.of("The requested order was not found"));
+    }
 
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(InvalidOrderStatusChangeException.class)
+    public @ResponseBody
+    ExceptionResponse handleInvalidOrderStatusChangeException(
+            Exception ex) {
+        return new ExceptionResponse(List.of("This order status change is not allowed."));
+    }
 }
