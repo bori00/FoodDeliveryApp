@@ -1,5 +1,6 @@
 package com.example.food_delivery.service.food_browsing;
 
+import com.example.food_delivery.model.DTO.FoodDTO;
 import com.example.food_delivery.model.DTO.RestaurantDTO;
 import com.example.food_delivery.model.DeliveryZone;
 import com.example.food_delivery.model.Restaurant;
@@ -52,5 +53,19 @@ public class FoodBrowsingService {
                 RestaurantDTO.class)).collect(Collectors.toList());
     }
 
+    public List<FoodDTO> getRestaurantMenu(String restaurantName) throws RestaurantNotFoundException {
+        Optional<Restaurant> optRestaurant = restaurantRepository.findByName(restaurantName);
+
+        if (optRestaurant.isEmpty()) {
+            throw new RestaurantNotFoundException();
+        }
+
+        return optRestaurant.get()
+                .getFoods()
+                .stream()
+                .map(food -> mapper.map(food, FoodDTO.class))
+                .collect(Collectors.toList());
+
+    }
 
 }

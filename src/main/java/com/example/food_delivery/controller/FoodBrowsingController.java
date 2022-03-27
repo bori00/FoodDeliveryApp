@@ -5,6 +5,7 @@ import com.example.food_delivery.model.DTO.RestaurantDTO;
 import com.example.food_delivery.model.DeliveryZone;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
 import com.example.food_delivery.service.food_browsing.FoodBrowsingService;
+import com.example.food_delivery.service.food_browsing.RestaurantNotFoundException;
 import com.example.food_delivery.service.restaurant_management.exceptions.NoRestaurantSetupForAdminException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,6 +33,11 @@ public class FoodBrowsingController {
                 restaurantFilterDTO.getDeliveryZoneName());
     }
 
+    @GetMapping("/get_restaurant_menu")
+    public List<FoodDTO> getRestaurantMenu(@RequestBody RestaurantNameDTO restaurantNameDTO) throws RestaurantNotFoundException {
+        return foodBrowsingService.getRestaurantMenu(restaurantNameDTO.getRestaurantName());
+    }
+
     @Getter
     @Setter
     @AllArgsConstructor
@@ -39,5 +45,13 @@ public class FoodBrowsingController {
     public static class RestaurantFilterDTO {
         private String nameSubstring;
         private String deliveryZoneName;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class RestaurantNameDTO {
+        private String restaurantName;
     }
 }

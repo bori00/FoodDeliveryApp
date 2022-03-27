@@ -3,6 +3,7 @@ package com.example.food_delivery.controller;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
 import com.example.food_delivery.service.authentication.exceptions.AuthenticationRequiredException;
 import com.example.food_delivery.service.authentication.exceptions.DuplicateUsernameException;
+import com.example.food_delivery.service.food_browsing.RestaurantNotFoundException;
 import com.example.food_delivery.service.restaurant_management.exceptions.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -120,5 +121,14 @@ public class GlobalControllerExceptionHandler {
             Exception ex) {
         return new ExceptionResponse(List.of("You must first set up your restaurant before " +
                 "accessing this functionality."));
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RestaurantNotFoundException.class)
+    public @ResponseBody
+    ExceptionResponse handleRestaurantNotFoundException(
+            Exception ex) {
+        return new ExceptionResponse(List.of("The restaurant with the requested name was not " +
+                "found."));
     }
 }
