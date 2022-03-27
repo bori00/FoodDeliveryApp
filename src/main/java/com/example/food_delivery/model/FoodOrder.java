@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -33,6 +34,13 @@ public class FoodOrder {
 
     @OneToMany(mappedBy = "foodOrder", cascade = CascadeType.ALL)
     private Set<OrderItem> orderItems;
+
+    public FoodOrder(OrderStatus orderStatus, Customer customer, Restaurant restaurant) {
+        this.orderStatus = orderStatus;
+        this.customer = customer;
+        this.restaurant = restaurant;
+        this.orderItems = new HashSet<>();
+    }
 
     public enum OrderStatus {
         PENDING("P"),

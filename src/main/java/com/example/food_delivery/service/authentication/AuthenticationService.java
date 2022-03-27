@@ -7,6 +7,7 @@ import com.example.food_delivery.repository.AdminRepository;
 import com.example.food_delivery.repository.CustomerRepository;
 import com.example.food_delivery.repository.UserRepository;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
+import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToCustomersException;
 import com.example.food_delivery.service.authentication.exceptions.AuthenticationRequiredException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -47,12 +48,12 @@ public class AuthenticationService {
         return optUser.get();
     }
 
-    public Customer getCurrentCustomer() throws AccessRestrictedToAdminsException {
+    public Customer getCurrentCustomer() throws AccessRestrictedToCustomersException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<Customer> optUser =
                 customerRepository.findByUserName(((CustomUserDetailsService.CustomUserDetails) auth.getPrincipal()).getUsername());
         if (optUser.isEmpty()) {
-            throw new AccessRestrictedToAdminsException();
+            throw new AccessRestrictedToCustomersException();
         }
         return optUser.get();
     }

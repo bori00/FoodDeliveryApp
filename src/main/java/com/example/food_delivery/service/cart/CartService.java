@@ -10,9 +10,10 @@ import com.example.food_delivery.repository.FoodRepository;
 import com.example.food_delivery.repository.RestaurantRepository;
 import com.example.food_delivery.service.authentication.AuthenticationService;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
+import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToCustomersException;
 import com.example.food_delivery.service.cart.exceptions.CartItemsFromMultipleRestaurantsException;
 import com.example.food_delivery.service.cart.exceptions.FoodNotFoundException;
-import com.example.food_delivery.service.food_browsing.RestaurantNotFoundException;
+import com.example.food_delivery.service.food_browsing.exceptions.RestaurantNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class CartService {
     @Autowired
     private ModelMapper mapper;
 
-    public void addItemToCart(CartItemDTO cartItemDTO) throws AccessRestrictedToAdminsException, FoodNotFoundException, RestaurantNotFoundException, CartItemsFromMultipleRestaurantsException {
+    public void addItemToCart(CartItemDTO cartItemDTO) throws FoodNotFoundException, RestaurantNotFoundException, CartItemsFromMultipleRestaurantsException, AccessRestrictedToCustomersException {
         Customer activeUser = authenticationService.getCurrentCustomer();
 
         // get restaurant of the menu item

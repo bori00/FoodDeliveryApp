@@ -6,6 +6,7 @@ import com.example.food_delivery.model.DeliveryZone;
 import com.example.food_delivery.model.Restaurant;
 import com.example.food_delivery.repository.DeliveryZoneRepository;
 import com.example.food_delivery.repository.RestaurantRepository;
+import com.example.food_delivery.service.food_browsing.exceptions.RestaurantNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;

@@ -6,7 +6,8 @@ import com.example.food_delivery.service.authentication.exceptions.Authenticatio
 import com.example.food_delivery.service.authentication.exceptions.DuplicateUsernameException;
 import com.example.food_delivery.service.cart.exceptions.CartItemsFromMultipleRestaurantsException;
 import com.example.food_delivery.service.cart.exceptions.FoodNotFoundException;
-import com.example.food_delivery.service.food_browsing.RestaurantNotFoundException;
+import com.example.food_delivery.service.customer_order_management.exceptions.EmptyOrderException;
+import com.example.food_delivery.service.food_browsing.exceptions.RestaurantNotFoundException;
 import com.example.food_delivery.service.restaurant_management.exceptions.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -161,4 +162,14 @@ public class GlobalControllerExceptionHandler {
         return new ExceptionResponse(List.of("You cannot place menu items from different " +
                 "restaurants in your cart."));
     }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(EmptyOrderException.class)
+    public @ResponseBody
+    ExceptionResponse handleEmptyOrderException(
+            Exception ex) {
+        return new ExceptionResponse(List.of("You cannot place an empty order."));
+    }
+
+
 }

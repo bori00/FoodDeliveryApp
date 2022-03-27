@@ -5,7 +5,7 @@ import com.example.food_delivery.model.DTO.RestaurantDTO;
 import com.example.food_delivery.model.DeliveryZone;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
 import com.example.food_delivery.service.food_browsing.FoodBrowsingService;
-import com.example.food_delivery.service.food_browsing.RestaurantNotFoundException;
+import com.example.food_delivery.service.food_browsing.exceptions.RestaurantNotFoundException;
 import com.example.food_delivery.service.restaurant_management.exceptions.NoRestaurantSetupForAdminException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
