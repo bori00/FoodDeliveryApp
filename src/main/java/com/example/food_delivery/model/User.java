@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,5 +26,10 @@ public abstract class User {
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
+    }
+
+    public enum UserType {
+        ADMIN,
+        CUSTOMER
     }
 }

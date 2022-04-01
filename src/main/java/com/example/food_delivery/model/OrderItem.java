@@ -8,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name="order_item")
+@Table(name = "order_item")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -28,4 +28,10 @@ public class OrderItem {
     @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "food_id", referencedColumnName = "Id")
     private Food food;
+
+    public OrderItem(Integer quantity, FoodOrder foodOrder, Food food) {
+        this.quantity = quantity;
+        this.foodOrder = foodOrder;
+        this.food = food;
+    }
 }

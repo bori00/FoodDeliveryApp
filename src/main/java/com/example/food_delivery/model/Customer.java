@@ -1,5 +1,6 @@
 package com.example.food_delivery.model;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Table(name = "Customer")
 @ToString
 @Setter
+@Getter
 @NoArgsConstructor
 public class Customer extends User {
 

@@ -8,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name="cart_item")
+@Table(name = "cart_item")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -28,4 +28,16 @@ public class CartItem {
     @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "food_id", referencedColumnName = "Id")
     private Food food;
+
+    public CartItem(Integer quantity, Customer customer, Food food) {
+        this.quantity = quantity;
+        this.customer = customer;
+        this.food = food;
+    }
+
+    @PreRemove
+    private void preRemove() {
+        customer.getCartItems().remove(this);
+        food.getCartItems().remove(this);
+    }
 }

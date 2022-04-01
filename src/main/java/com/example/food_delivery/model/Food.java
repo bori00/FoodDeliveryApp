@@ -6,9 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
-@Table(name="food")
+@Table(name = "food")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -18,13 +19,13 @@ public class Food {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(nullable = false, length = 50)
     private String name;
 
     @Column(nullable = false)
     private Double price;
 
-    @Column(nullable = false, length = 200)
+    @Column(length = 200)
     private String description;
 
     @ManyToOne(optional = false, cascade = CascadeType.MERGE)
@@ -34,4 +35,15 @@ public class Food {
     @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "restaurant_id", referencedColumnName = "Id")
     private Restaurant restaurant;
+
+    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
+    private Set<CartItem> cartItems;
+
+    public Food(String name, Double price, String description, FoodCategory foodCategory, Restaurant restaurant) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.foodCategory = foodCategory;
+        this.restaurant = restaurant;
+    }
 }

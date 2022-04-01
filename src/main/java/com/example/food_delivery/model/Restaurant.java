@@ -29,13 +29,13 @@ public class Restaurant {
     @JoinColumn(name = "admin_id", referencedColumnName = "id")
     private RestaurantAdmin admin;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "available_delivery_zones",
-            joinColumns = { @JoinColumn(name = "restaurant_id") },
-            inverseJoinColumns = { @JoinColumn(name = "delivery_zone_id") }
+            joinColumns = {@JoinColumn(name = "restaurant_id")},
+            inverseJoinColumns = {@JoinColumn(name = "delivery_zone_id")}
     )
-    private Set<DeliveryZone> availableDelieveryZones;
+    private Set<DeliveryZone> availableDeliveryZones;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private Set<Food> foods;
@@ -43,4 +43,20 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private Set<FoodOrder> orders;
 
+    public Restaurant(String name, String address, RestaurantAdmin admin, Set<DeliveryZone> availableDeliveryZones) {
+        this.name = name;
+        this.address = address;
+        this.admin = admin;
+        this.availableDeliveryZones = availableDeliveryZones;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Restaurant that = (Restaurant) o;
+
+        return name != null ? name.equals(that.name) : that.name == null;
+    }
 }
