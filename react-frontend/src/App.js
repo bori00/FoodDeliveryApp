@@ -15,25 +15,31 @@ class App extends Component {
         super(props);
         this.logOut = this.logOut.bind(this);
         this.state = {
-            showAdminBoard: false,
+            showRestaurantOwnerAdminBoard: false,
+            showNewAdminBoard: false,
+            showCustomerBoard: false,
             currentUser: undefined,
         };
     }
+
     componentDidMount() {
         const user = AuthService.getCurrentUser();
         if (user) {
             this.setState({
                 currentUser: user,
-                showAdminBoard: user.role === "RESTAURANT_ADMIN",
-                showCustomerBoard: user.rolw === "CUSTOMER"
+                showRestaurantOwnerAdminBoard: user.role === "RESTAURANT_ADMIN" && user.hasRestaurant,
+                showNewAdminBoard: user.role === "RESTAURANT_ADMIN" && !user.hasRestaurant,
+                showCustomerBoard: user.role === "CUSTOMER"
             });
         }
     }
+
     logOut() {
         AuthService.logout();
     }
+
     render() {
-        const { currentUser, showAdminBoard, showCustomerBoard} = this.state;
+        const { currentUser, showRestaurantOwnerAdminBoard, showNewAdminBoard, showCustomerBoard} = this.state;
         return (
             <div>
                 <nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -41,28 +47,37 @@ class App extends Component {
                         Food Delivery
                     </Link>
                     <div className="navbar-nav mr-auto">
-                        {showAdminBoard && (
+                        {showRestaurantOwnerAdminBoard && (
                             <li className="nav-item">
                                 <Link to={"/admin"} className="nav-link">
-                                    Admin2 Board
+                                     Menu
+                                </Link>
+                            </li>
+                        )}
+                        {showRestaurantOwnerAdminBoard && (
+                            <li className="nav-item">
+                                <Link to={"/admin"} className="nav-link">
+                                    Orders
+                                </Link>
+                            </li>
+                        )}
+                        {showNewAdminBoard && (
+                            <li className="nav-item">
+                                <Link to={"/admin"} className="nav-link">
+                                    Setup Restaurant
                                 </Link>
                             </li>
                         )}
                         {showCustomerBoard && (
                             <li className="nav-item">
                                 <Link to={"/customer"} className="nav-link">
-                                    Customer2 Board
+                                    Customer Board
                                 </Link>
                             </li>
                         )}
                     </div>
                     {currentUser ? (
                         <div className="navbar-nav ml-auto">
-                            <li className="nav-item">
-                                <Link to={"/profile"} className="nav-link">
-                                    {currentUser.username}
-                                </Link>
-                            </li>
                             <li className="nav-item">
                                 <a href="/login" className="nav-link" onClick={this.logOut}>
                                     LogOut

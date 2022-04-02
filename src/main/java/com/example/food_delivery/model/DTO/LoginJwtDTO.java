@@ -17,11 +17,14 @@ public class LoginJwtDTO {
 
     private String accessToken;
 
+    private boolean hasRestaurant;
+
     private String tokenType = "Bearer";
 
-    public LoginJwtDTO(String userName, String role, String accessToken) {
+    public LoginJwtDTO(String userName, String role, boolean hasRestaurant, String accessToken) {
         this.userName = userName;
         this.role = role;
         this.accessToken = accessToken;
+        this.hasRestaurant = hasRestaurant;
     }
 }

@@ -15,9 +15,13 @@ class AuthService {
                 body: JSON.stringify(body)
             }).then(response => {
                 if (response.ok) {
-                    localStorage.setItem("user", JSON.stringify(response));
+                    return response.json().then(responseJson => {
+                        localStorage.setItem("user", JSON.stringify(responseJson));
+                        return response;
+                    })
+                } else {
+                    return response;
                 }
-                return response;
             })
     }
 

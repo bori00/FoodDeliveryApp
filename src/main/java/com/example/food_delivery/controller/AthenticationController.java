@@ -61,6 +61,7 @@ public class AthenticationController {
         return ResponseEntity.ok(new LoginJwtDTO(
                 userDetails.getUsername(),
                 roles.get(0),
+                loginRegistrationService.hasRestaurant(userDetails.getUsername()),
                 jwt)); // todo: assumed just 1 role
     }
 
