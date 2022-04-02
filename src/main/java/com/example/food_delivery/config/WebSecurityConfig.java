@@ -50,24 +50,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/register", "/login").permitAll()
+                .authorizeRequests().antMatchers("/register", "/login", "/util/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-//        http.authorizeRequests()
-//                .antMatchers("/register")
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated();
-//        http.formLogin()
-//                .usernameParameter("userName")
-//                .defaultSuccessUrl("/")
-//                .permitAll();
-//        http.logout()
-//                .logoutSuccessUrl("/")
-//                .invalidateHttpSession(true)
-//                .permitAll();
-//        http       // todo: not an elegant solution...
-//                .csrf().disable();
     }
 
     @Bean
