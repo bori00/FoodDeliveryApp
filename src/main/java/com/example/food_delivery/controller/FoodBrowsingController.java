@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,12 +29,14 @@ public class FoodBrowsingController {
     private FoodBrowsingService foodBrowsingService;
 
     @GetMapping("/get_filtered_restaurants")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public List<RestaurantDTO> getFilteredRestaurants(@RequestBody RestaurantFilterDTO restaurantFilterDTO) {
         return foodBrowsingService.getFilteredRestaurants(restaurantFilterDTO.getNameSubstring(),
                 restaurantFilterDTO.getDeliveryZoneName());
     }
 
     @GetMapping("/get_restaurant_menu")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public List<FoodDTO> getRestaurantMenu(@RequestBody RestaurantNameDTO restaurantNameDTO) throws RestaurantNotFoundException {
         return foodBrowsingService.getRestaurantMenu(restaurantNameDTO.getRestaurantName());
     }

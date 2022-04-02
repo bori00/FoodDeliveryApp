@@ -9,6 +9,7 @@ import com.example.food_delivery.service.cart.exceptions.FoodNotFoundException;
 import com.example.food_delivery.service.food_browsing.exceptions.RestaurantNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping("/add_item_to_cart")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public void addItemToCart(@Valid @RequestBody CartItemDTO cartItemDTO) throws CartItemsFromMultipleRestaurantsException, FoodNotFoundException, RestaurantNotFoundException, AccessRestrictedToCustomersException {
         cartService.addItemToCart(cartItemDTO);
     }
