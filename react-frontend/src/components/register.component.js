@@ -120,7 +120,7 @@ export default class Register extends Component {
                                         onChange={this.onChangeAccountType}
                                     />
                                 </div>
-                                <div className="form-group">
+                                <div className="form-group text-center">
                                     <button className="btn btn-primary btn-block">Sign Up</button>
                                 </div>
                             </div>

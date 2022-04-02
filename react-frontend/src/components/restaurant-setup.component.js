@@ -4,6 +4,8 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import RestaurantManagementService from "../services/restaurant_management.service";
 import AuthService from "../services/auth.service"
+import Select from 'react-select'
+
 
 export default class RestaurantSetup extends Component {
     constructor(props) {
@@ -11,14 +13,40 @@ export default class RestaurantSetup extends Component {
         this.handleRestaurantSetup = this.handleRestaurantSetup.bind(this)
         this.onChangeName = this.onChangeName.bind(this);
         this.onChangeAddress = this.onChangeAddress.bind(this);
+        this.onChangeAvailableDeliveryZones = this.onChangeAvailableDeliveryZones.bind(this)
         this.state = {
-            name : "",
-            address : "",
-            availableDeliveryZones : ["Gheorgheni"],
+            name: "",
+            address: "",
+            availableDeliveryZones: [],
+            possibleDeliveryZones: [],
             successful: false,
             message: "",
             loading: false
         };
+    }
+
+    getDictOfDeliveryZone(zoneName) {
+        return { value: zoneName, label: zoneName }
+    }
+
+    componentDidMount() {
+        console.log("DidMount")
+        RestaurantManagementService.getAllDeliveryZones()
+            .then(response => {
+                console.log("Delivery zones response: ", response)
+                if (response.ok) {
+                    response.json().then(response => {
+                        this.setState({
+                            possibleDeliveryZones: response.map(zone => this.getDictOfDeliveryZone(zone.name))
+                        });
+                    })
+                } else {
+                    this.setState({
+                        possibleDeliveryZones: []
+                    });
+                    console.log("Error loading possible delivery zones")
+                }
+            })
     }
 
     onChangeName(e) {
@@ -30,6 +58,12 @@ export default class RestaurantSetup extends Component {
     onChangeAddress(e) {
         this.setState({
             address: e.target.value
+        });
+    }
+
+    onChangeAvailableDeliveryZones(e) {
+        this.setState({
+            availableDeliveryZones: e.map(zone => zone.value)
         });
     }
 
@@ -46,18 +80,18 @@ export default class RestaurantSetup extends Component {
         if (this.checkBtn.context._errors.length === 0) {
             RestaurantManagementService.setupRestaurant(this.state.name, this.state.address, this.state.availableDeliveryZones)
                 .then(response => {
-                        if (response.ok) {
-                            AuthService.setCurrentUserHasRestaurant()
-                            this.props.history.push("/home");
-                            window.location.reload();
-                        } else {
-                            response.json().then(response => response.messages.join("\n")).then(errorMsg => {
-                                this.setState({
-                                    successful: false,
-                                    message: errorMsg
-                                });
-                            })
-                        }
+                    if (response.ok) {
+                        AuthService.setCurrentUserHasRestaurant()
+                        this.props.history.push("/home");
+                        window.location.reload();
+                    } else {
+                        response.json().then(response => response.messages.join("\n")).then(errorMsg => {
+                            this.setState({
+                                successful: false,
+                                message: errorMsg
+                            });
+                        })
+                    }
                     }
                 );
         } else {
@@ -68,6 +102,13 @@ export default class RestaurantSetup extends Component {
     }
 
     render() {
+
+        const options = [
+            { value: 'chocolate', label: 'Chocolate' },
+            { value: 'strawberry', label: 'Strawberry' },
+            { value: 'vanilla', label: 'Vanilla' }
+        ]
+
         return (
             <div className="col-md-12">
                 <div className="card card-container">
@@ -107,12 +148,21 @@ export default class RestaurantSetup extends Component {
                             />
                         </div>
                         <div className="form-group">
+                            <label htmlFor="availableDeliveryZones">Available Delivery
+                                Zones:</label>
+                            <Select options={this.state.possibleDeliveryZones}
+                                    isMulti
+                                    name="availableDeliveryZones"
+                                    onChange={this.onChangeAvailableDeliveryZones}
+                            />
+                        </div>
+                        <div className="form-group text-center">
                             <button
                                 className="btn btn-primary btn-block"
                                 disabled={this.state.loading}
                             >
                                 {this.state.loading && (
-                                    <span className="spinner-border spinner-border-sm"></span>
+                                    <span className="spinner-border spinner-border-sm"/>
                                 )}
                                 <span>Add Restaurant</span>
                             </button>

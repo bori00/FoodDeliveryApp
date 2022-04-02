@@ -96,13 +96,13 @@ export default class Login extends Component {
                                 validations={[required]}
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group text-center">
                             <button
                                 className="btn btn-primary btn-block"
                                 disabled={this.state.loading}
                             >
                                 {this.state.loading && (
-                                    <span className="spinner-border spinner-border-sm"></span>
+                                    <span className="spinner-border spinner-border-sm"/>
                                 )}
                                 <span>Login</span>
                             </button>

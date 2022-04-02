@@ -20,5 +20,16 @@ class RestaurantManagementService {
         })
     }
 
+    getAllDeliveryZones() {
+        return fetch(API_URL + "util/get_all_delivery_zones", {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                "charset": "UTF-8"
+            }
+        })
+    }
+
 }
 export default new RestaurantManagementService();
