@@ -20,4 +20,9 @@ public class UtilController {
     public List<DeliveryZoneDTO> getAllDeliveryZones() {
         return utilService.getAllDeliveryZones();
     }
+
+    @GetMapping("/get_all_food_categories")
+    public List<String> getAllFoodCategories() {
+        return utilService.getAllFoodCategories();
+    }
 }

@@ -43,7 +43,7 @@ label {
 }
 
 .card-container.card {
-  max-width: 350px !important;
+  max-width: 450px !important;
   padding: 40px 40px;
 }
 
@@ -61,9 +61,9 @@ label {
 }
 
 .img-card {
-  max-width: 96px;
-  max-height: 96px;
-  margin: 0 auto 10px;
+  max-width: 126px;
+  max-height: 126px;
+  margin: 10px auto 30px;
   display: block;
 }
 

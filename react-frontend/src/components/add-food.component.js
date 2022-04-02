@@ -8,42 +8,44 @@ import UtilService from "../services/util.service"
 import Select from 'react-select'
 
 
-export default class RestaurantSetup extends Component {
+export default class AddFood extends Component {
     constructor(props) {
         super(props);
-        this.handleRestaurantSetup = this.handleRestaurantSetup.bind(this)
+        this.handleSaveFood = this.handleSaveFood.bind(this)
         this.onChangeName = this.onChangeName.bind(this);
-        this.onChangeAddress = this.onChangeAddress.bind(this);
-        this.onChangeAvailableDeliveryZones = this.onChangeAvailableDeliveryZones.bind(this)
+        this.onChangeDescription = this.onChangeDescription.bind(this);
+        this.onChangePrice = this.onChangePrice.bind(this)
+        this.onChangeFoodCategory = this.onChangeFoodCategory.bind(this)
         this.state = {
             name: "",
-            address: "",
-            availableDeliveryZones: [],
-            possibleDeliveryZones: [],
+            description: "",
+            price: 0.0,
+            foodCategory: undefined,
+            possibleFoodCategories: [],
             successful: false,
             message: "",
             loading: false
         };
     }
 
-    getDictOfDeliveryZone(zoneName) {
-        return { value: zoneName, label: zoneName }
+    getDictOfFoodCategory(foodName) {
+        return { value: foodName, label: foodName }
     }
 
     componentDidMount() {
-        UtilService.getAllDeliveryZones()
+        UtilService.getAllFoodCategories()
             .then(response => {
                 if (response.ok) {
                     response.json().then(response => {
                         this.setState({
-                            possibleDeliveryZones: response.map(zone => this.getDictOfDeliveryZone(zone.name))
+                            possibleFoodCategories: response.map(category => this.getDictOfFoodCategory(category))
                         });
-                    })
+                    }).then(console.log(this.state.possibleFoodCategories))
                 } else {
                     this.setState({
-                        possibleDeliveryZones: []
+                        possibleFoodCategories: []
                     });
-                    console.log("Error loading possible delivery zones")
+                    console.log("Error loading possible food categories")
                 }
             })
     }
@@ -54,19 +56,25 @@ export default class RestaurantSetup extends Component {
         });
     }
 
-    onChangeAddress(e) {
+    onChangeDescription(e) {
         this.setState({
-            address: e.target.value
+            description: e.target.value
         });
     }
 
-    onChangeAvailableDeliveryZones(e) {
+    onChangeFoodCategory(e) {
         this.setState({
-            availableDeliveryZones: e.map(zone => zone.value)
+            foodCategory: e.value
         });
     }
 
-    handleRestaurantSetup(e) {
+    onChangePrice(e) {
+        this.setState({
+            price: e.target.value
+        })
+    }
+
+    handleSaveFood(e) {
 
         e.preventDefault();
         this.setState({
@@ -77,20 +85,19 @@ export default class RestaurantSetup extends Component {
 
         this.form.validateAll();
         if (this.checkBtn.context._errors.length === 0) {
-            RestaurantManagementService.setupRestaurant(this.state.name, this.state.address, this.state.availableDeliveryZones)
+            RestaurantManagementService.addFoodToMenu(this.state.name, this.state.price, this.state.description, this.state.foodCategory)
                 .then(response => {
-                    if (response.ok) {
-                        AuthService.setCurrentUserHasRestaurant()
-                        this.props.history.push("/home");
-                        window.location.reload();
-                    } else {
-                        response.json().then(response => response.messages.join("\n")).then(errorMsg => {
-                            this.setState({
-                                successful: false,
-                                message: errorMsg
-                            });
-                        })
-                    }
+                        if (response.ok) {
+                            this.props.history.push("/home");
+                            window.location.reload();
+                        } else {
+                            response.json().then(response => response.messages.join("\n")).then(errorMsg => {
+                                this.setState({
+                                    successful: false,
+                                    message: errorMsg
+                                });
+                            })
+                        }
                     }
                 );
         } else {
@@ -101,22 +108,23 @@ export default class RestaurantSetup extends Component {
     }
 
     render() {
+
         return (
             <div className="col-md-12">
                 <div className="card card-container">
                     <img
-                        src={require('../assets/restaurant.png')}
-                        alt="restaurant-img"
+                        src={require('../assets/food.png')}
+                        alt="food-img"
                         className="img-card scale-down"
                     />
                     <Form
-                        onSubmit={this.handleRestaurantSetup}
+                        onSubmit={this.handleSaveFood}
                         ref={c => {
                             this.form = c;
                         }}
                         history={this.props.history}
                     >
-                        <h1>Restaurant Setup</h1>
+                        <h1>Add a Menu Item</h1>
                         <div className="form-group">
                             <label htmlFor="name">Name:</label>
                             <Input
@@ -129,23 +137,32 @@ export default class RestaurantSetup extends Component {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="address">Address</label>
+                            <label htmlFor="price">Price:</label>
                             <Input
-                                type="text"
+                                type="number"
                                 className="form-control"
-                                name="address"
-                                value={this.state.address}
-                                onChange={this.onChangeAddress}
+                                name="price"
+                                value={this.state.price}
+                                onChange={this.onChangePrice}
                                 validations={[required]}
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="availableDeliveryZones">Available Delivery
-                                Zones:</label>
-                            <Select options={this.state.possibleDeliveryZones}
-                                    isMulti
-                                    name="availableDeliveryZones"
-                                    onChange={this.onChangeAvailableDeliveryZones}
+                            <label htmlFor="description">Description:</label>
+                            <Input
+                                type="text"
+                                className="form-control"
+                                name="description"
+                                value={this.state.description}
+                                onChange={this.onChangeDescription}
+                                validations={[required]}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="foodCategory">Food Category:</label>
+                            <Select options={this.state.possibleFoodCategories}
+                                    name="foodCategory"
+                                    onChange={this.onChangeFoodCategory}
                             />
                         </div>
                         <div className="form-group text-center">
@@ -156,7 +173,7 @@ export default class RestaurantSetup extends Component {
                                 {this.state.loading && (
                                     <span className="spinner-border spinner-border-sm"/>
                                 )}
-                                <span>Add Restaurant</span>
+                                <span>Save Item</span>
                             </button>
                         </div>
                         {this.state.message && (

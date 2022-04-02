@@ -20,14 +20,20 @@ class RestaurantManagementService {
         })
     }
 
-    getAllDeliveryZones() {
-        return fetch(API_URL + "util/get_all_delivery_zones", {
-            method: 'GET',
-            headers: {
+    addFoodToMenu(name, price, description, foodCategoryName) {
+
+        let body = {"name": name, "price": price, "description": description, "foodCategory": foodCategoryName}
+
+        console.log("body:", body)
+
+        return fetch(API_URL + "add_food_to_menu", {
+            method: 'POST',
+            headers: Object.assign({}, {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 "charset": "UTF-8"
-            }
+            }, authHeader()),
+            body: JSON.stringify(body)
         })
     }
 
