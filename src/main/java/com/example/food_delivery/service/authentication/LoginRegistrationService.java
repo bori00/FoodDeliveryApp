@@ -12,7 +12,7 @@ import java.util.Optional;
 
 
 @Service
-public class RegistrationService {
+public class LoginRegistrationService {
 
     @Autowired
     private UserRepository userRepository;

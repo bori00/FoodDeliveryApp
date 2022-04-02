@@ -31,7 +31,7 @@ public class AuthenticationService {
     public User getCurrentUser() throws AuthenticationRequiredException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optUser =
-                userRepository.findByUserName(((CustomUserDetailsService.CustomUserDetails) auth.getPrincipal()).getUsername());
+                userRepository.findByUserName(((UserDetailsServiceImpl.UserDetailsImpl) auth.getPrincipal()).getUsername());
         if (optUser.isEmpty()) {
             throw new AuthenticationRequiredException();
         }
@@ -41,7 +41,7 @@ public class AuthenticationService {
     public RestaurantAdmin getCurrentAdmin() throws AccessRestrictedToAdminsException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<RestaurantAdmin> optUser =
-                adminRepository.findByUserName(((CustomUserDetailsService.CustomUserDetails) auth.getPrincipal()).getUsername());
+                adminRepository.findByUserName(((UserDetailsServiceImpl.UserDetailsImpl) auth.getPrincipal()).getUsername());
         if (optUser.isEmpty()) {
             throw new AccessRestrictedToAdminsException();
         }
@@ -51,7 +51,7 @@ public class AuthenticationService {
     public Customer getCurrentCustomer() throws AccessRestrictedToCustomersException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<Customer> optUser =
-                customerRepository.findByUserName(((CustomUserDetailsService.CustomUserDetails) auth.getPrincipal()).getUsername());
+                customerRepository.findByUserName(((UserDetailsServiceImpl.UserDetailsImpl) auth.getPrincipal()).getUsername());
         if (optUser.isEmpty()) {
             throw new AccessRestrictedToCustomersException();
         }
