@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from "react";
-import MenuService from "../services/menu.service"
+import MenuService from "../services/food_browsing.service"
 import UtilService from "../services/util.service"
 import {Link} from "react-router-dom";
 import MenuItem from "./menu-item.component";

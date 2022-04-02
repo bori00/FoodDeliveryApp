@@ -38,24 +38,7 @@ public class FoodBrowsingController {
 
     @GetMapping("/get_restaurant_menu")
     @PreAuthorize("hasAuthority('CUSTOMER')")
-    public List<FoodDTO> getRestaurantMenu(@RequestBody RestaurantNameDTO restaurantNameDTO) throws RestaurantNotFoundException {
-        return foodBrowsingService.getRestaurantMenu(restaurantNameDTO.getRestaurantName());
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class RestaurantFilterDTO {
-        private String nameSubstring;
-        private String deliveryZoneName;
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class RestaurantNameDTO {
-        private String restaurantName;
+    public List<FoodDTO> getRestaurantMenu(@RequestParam String restaurantName) throws RestaurantNotFoundException {
+        return foodBrowsingService.getRestaurantMenu(restaurantName);
     }
 }
