@@ -11,6 +11,7 @@ import BoardCustomer from "./components/board-customer.component";
 import BoardAdmin from "./components/board-admin.component";
 import RestaurantSetup from "./components/restaurant-setup.component";
 import AddFood from "./components/add-food.component";
+import Menu from "./components/menu.component"
 
 class App extends Component {
     constructor(props) {
@@ -51,7 +52,7 @@ class App extends Component {
                     <div className="navbar-nav mr-auto">
                         {showRestaurantOwnerAdminBoard && (
                             <li className="nav-item">
-                                <Link to={"/admin"} className="nav-link">
+                                <Link to={"/menu/admins"} className="nav-link">
                                      Menu
                                 </Link>
                             </li>
@@ -81,6 +82,13 @@ class App extends Component {
                             <li className="nav-item">
                                 <Link to={"/customer"} className="nav-link">
                                     Customer Board
+                                </Link>
+                            </li>
+                        )}
+                        {showCustomerBoard && (
+                            <li className="nav-item">
+                                <Link to={"/menu/Rest6"} className="nav-link">
+                                    Rest6 Menu
                                 </Link>
                             </li>
                         )}
@@ -117,6 +125,7 @@ class App extends Component {
                             <Route path="/admin"  component={BoardAdmin} />
                             <Route path="/setup-restaurant"  component={RestaurantSetup} />
                             <Route path="/add-food"  component={AddFood} />
+                            <Route exact path="/menu/:restaurant"  component={Menu} />
                         </Switch>
                 </div>
             </div>

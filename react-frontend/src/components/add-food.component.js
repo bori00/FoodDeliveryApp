@@ -40,7 +40,7 @@ export default class AddFood extends Component {
                         this.setState({
                             possibleFoodCategories: response.map(category => this.getDictOfFoodCategory(category))
                         });
-                    }).then(console.log(this.state.possibleFoodCategories))
+                    })
                 } else {
                     this.setState({
                         possibleFoodCategories: []
