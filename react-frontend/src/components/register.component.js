@@ -38,9 +38,11 @@ export default class Register extends Component {
         this.handleRegister = this.handleRegister.bind(this);
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
+        this.onChangeAccountType = this.onChangeAccountType.bind(this);
         this.state = {
             username: "",
             password: "",
+            admin: false,
             successful: false,
             message: ""
         };
@@ -59,6 +61,12 @@ export default class Register extends Component {
         });
     }
 
+    onChangeAccountType(e) {
+        this.setState({
+            admin: e.target.checked
+        });
+    }
+
     handleRegister(e) {
         e.preventDefault();
         this.setState({
@@ -71,7 +79,8 @@ export default class Register extends Component {
         if (this.checkBtn.context._errors.length === 0) {
             AuthService.register(
                 this.state.username,
-                this.state.password
+                this.state.password,
+                this.state.admin
             ).then(response => {
                     if (response.ok) {
                         this.setState({
@@ -128,6 +137,15 @@ export default class Register extends Component {
                                         value={this.state.password}
                                         onChange={this.onChangePassword}
                                         validations={[required, vpassword]}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="accountType">Admin Account?</label>
+                                    <Input
+                                        type="checkbox"
+                                        name="accountType"
+                                        value={this.state.admin}
+                                        onChange={this.onChangeAccountType}
                                     />
                                 </div>
                                 <div className="form-group">

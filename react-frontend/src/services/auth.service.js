@@ -25,9 +25,9 @@ class AuthService {
         localStorage.removeItem("user");
     }
 
-    async register(username, password) {
-        let body = {"name": username, "password": password, "userType": "CUSTOMER"} // todo:
-        // change type
+    async register(username, password, isAdmin) {
+
+        const body = {"name": username, "password": password, "userType": isAdmin ? "ADMIN" : "CUSTOMER"};
 
         return fetch(API_URL + "register", {
             method: 'POST',
