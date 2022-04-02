@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,7 +31,7 @@ public class FoodBrowsingService {
 
     public List<RestaurantDTO> getFilteredRestaurants(@Nullable String nameSubstring,
                                                       @Nullable String deliveryZoneName) {
-        List<Restaurant> restaurants;
+        List<Restaurant> restaurants = new ArrayList<>();
 
         Optional<DeliveryZone> deliveryZone = Optional.empty();
         if (deliveryZoneName != null) {
@@ -39,10 +40,10 @@ public class FoodBrowsingService {
 
         if (nameSubstring != null && deliveryZone.isPresent()) {
             restaurants =
-                    restaurantRepository.findAllByNameLikeAndAvailableDeliveryZonesContains(
-                            "%" + nameSubstring + "%", deliveryZone.get());
+                    restaurantRepository.findAllByNameContainingAndAvailableDeliveryZonesContains(
+                            nameSubstring, deliveryZone.get());
         } else if (nameSubstring != null) {
-            restaurants = restaurantRepository.findAllByNameLike("%" + nameSubstring + "%");
+            restaurants = restaurantRepository.findAllByNameContaining(nameSubstring);
         } else if (deliveryZone.isPresent()) {
             restaurants =
                     restaurantRepository.findAllByAvailableDeliveryZonesContains(deliveryZone.get());
