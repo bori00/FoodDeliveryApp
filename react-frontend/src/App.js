@@ -9,6 +9,7 @@ import Register from "./components/register.component";
 import Home from "./components/home.component";
 import BoardCustomer from "./components/board-customer.component";
 import BoardAdmin from "./components/board-admin.component";
+import RestaurantSetup from "./components/restaurant-setup.component";
 
 class App extends Component {
     constructor(props) {
@@ -63,7 +64,7 @@ class App extends Component {
                         )}
                         {showNewAdminBoard && (
                             <li className="nav-item">
-                                <Link to={"/admin"} className="nav-link">
+                                <Link to={"/setup-restaurant"} className="nav-link">
                                     Setup Restaurant
                                 </Link>
                             </li>
@@ -106,6 +107,7 @@ class App extends Component {
                             <Route exact path="/register"  component={Register} />
                             <Route path="/customer"  component={BoardCustomer} />
                             <Route path="/admin"  component={BoardAdmin} />
+                            <Route path="/setup-restaurant"  component={RestaurantSetup} />
                         </Switch>
                 </div>
             </div>

@@ -7,23 +7,7 @@ export default class Home extends Component {
             content: ""
         };
     }
-    componentDidMount() {
-        // UserService.getPublicContent().then(
-        //     response => {
-        //         this.setState({
-        //             content: response.data
-        //         });
-        //     },
-        //     error => {
-        //         this.setState({
-        //             content:
-        //                 (error.response && error.response.data) ||
-        //                 error.message ||
-        //                 error.toString()
-        //         });
-        //     }
-        // );
-    }
+
     render() {
         return (
             <div className="container">

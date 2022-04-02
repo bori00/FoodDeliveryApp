@@ -47,5 +47,12 @@ class AuthService {
     getCurrentUser() {
         return JSON.parse(localStorage.getItem('user'));
     }
+
+    setCurrentUserHasRestaurant() {
+        let user = this.getCurrentUser();
+        localStorage.removeItem("user");
+        user.hasRestaurant = true;
+        localStorage.setItem("user", JSON.stringify(user));
+    }
 }
 export default new AuthService();

@@ -2,55 +2,64 @@ import React, {Component} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import AuthService from "../services/auth.service";
+import RestaurantManagementService from "../services/restaurant_management.service";
+import AuthService from "../services/auth.service"
 
-export default class Login extends Component {
+export default class RestaurantSetup extends Component {
     constructor(props) {
         super(props);
-        this.handleLogin = this.handleLogin.bind(this);
-        this.onChangeUsername = this.onChangeUsername.bind(this);
-        this.onChangePassword = this.onChangePassword.bind(this);
+        this.handleRestaurantSetup = this.handleRestaurantSetup.bind(this)
+        this.onChangeName = this.onChangeName.bind(this);
+        this.onChangeAddress = this.onChangeAddress.bind(this);
         this.state = {
-            username: "",
-            password: "",
-            loading: false,
-            message: ""
+            name : "",
+            address : "",
+            availableDeliveryZones : ["Gheorgheni"],
+            successful: false,
+            message: "",
+            loading: false
         };
     }
 
-    onChangeUsername(e) {
+    onChangeName(e) {
         this.setState({
-            username: e.target.value
+            name: e.target.value
         });
     }
 
-    onChangePassword(e) {
+    onChangeAddress(e) {
         this.setState({
-            password: e.target.value
+            address: e.target.value
         });
     }
 
-    handleLogin(e) {
+    handleRestaurantSetup(e) {
+
         e.preventDefault();
         this.setState({
             message: "",
-            loading: true
+            successful: false,
+            loading: false
         });
+
         this.form.validateAll();
         if (this.checkBtn.context._errors.length === 0) {
-            AuthService.login(this.state.username, this.state.password)
+            RestaurantManagementService.setupRestaurant(this.state.name, this.state.address, this.state.availableDeliveryZones)
                 .then(response => {
-                            if (response.ok) {
-                                this.props.history.push("/home");
-                                window.location.reload();
-                            } else {
+                        if (response.ok) {
+                            AuthService.setCurrentUserHasRestaurant()
+                            this.props.history.push("/home");
+                            window.location.reload();
+                        } else {
+                            response.json().then(response => response.messages.join("\n")).then(errorMsg => {
                                 this.setState({
-                                    loading: false,
-                                    message: "Invalid username or password. Please try again!"
+                                    successful: false,
+                                    message: errorMsg
                                 });
-                            }
+                            })
                         }
-                    );
+                    }
+                );
         } else {
             this.setState({
                 loading: false
@@ -63,36 +72,37 @@ export default class Login extends Component {
             <div className="col-md-12">
                 <div className="card card-container">
                     <img
-                        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                        alt="profile-img"
-                        className="img-card round-img"
+                        src={require('../assets/restaurant.png')}
+                        alt="restaurant-img"
+                        className="img-card scale-down"
                     />
                     <Form
-                        onSubmit={this.handleLogin}
+                        onSubmit={this.handleRestaurantSetup}
                         ref={c => {
                             this.form = c;
                         }}
                         history={this.props.history}
                     >
+                        <h1>Restaurant Setup</h1>
                         <div className="form-group">
-                            <label htmlFor="username">Username</label>
+                            <label htmlFor="name">Name:</label>
                             <Input
                                 type="text"
                                 className="form-control"
-                                name="username"
-                                value={this.state.username}
-                                onChange={this.onChangeUsername}
+                                name="name"
+                                value={this.state.name}
+                                onChange={this.onChangeName}
                                 validations={[required]}
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="password">Password</label>
+                            <label htmlFor="address">Address</label>
                             <Input
-                                type="password"
+                                type="text"
                                 className="form-control"
-                                name="password"
-                                value={this.state.password}
-                                onChange={this.onChangePassword}
+                                name="address"
+                                value={this.state.address}
+                                onChange={this.onChangeAddress}
                                 validations={[required]}
                             />
                         </div>
@@ -104,7 +114,7 @@ export default class Login extends Component {
                                 {this.state.loading && (
                                     <span className="spinner-border spinner-border-sm"></span>
                                 )}
-                                <span>Login</span>
+                                <span>Add Restaurant</span>
                             </button>
                         </div>
                         {this.state.message && (

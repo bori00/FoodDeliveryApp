@@ -4,34 +4,6 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import AuthService from "../services/auth.service";
 
-const required = value => {
-    if (!value) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                This field is required!
-            </div>
-        );
-    }
-};
-
-const vusername = value => {
-    if (value.length < 3 || value.length > 30) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The username must be between 3 and 30 characters.
-            </div>
-        );
-    }
-};
-const vpassword = value => {
-    if (value.length < 1 || value.length > 100) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                The password must be between 3 and 100 characters.
-            </div>
-        );
-    }
-};
 export default class Register extends Component {
     constructor(props) {
         super(props);
@@ -107,7 +79,7 @@ export default class Register extends Component {
                     <img
                         src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
                         alt="profile-img"
-                        className="profile-img-card"
+                        className="img-card round-img"
                     />
                     <Form
                         onSubmit={this.handleRegister}
@@ -179,3 +151,32 @@ export default class Register extends Component {
         );
     }
 }
+
+const required = value => {
+    if (!value) {
+        return (
+            <div className="alert alert-danger" role="alert">
+                This field is required!
+            </div>
+        );
+    }
+};
+
+const vusername = value => {
+    if (value.length < 3 || value.length > 30) {
+        return (
+            <div className="alert alert-danger" role="alert">
+                The username must be between 3 and 30 characters.
+            </div>
+        );
+    }
+};
+const vpassword = value => {
+    if (value.length < 1 || value.length > 100) {
+        return (
+            <div className="alert alert-danger" role="alert">
+                The password must be between 3 and 100 characters.
+            </div>
+        );
+    }
+};
