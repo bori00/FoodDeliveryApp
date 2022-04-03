@@ -13,7 +13,8 @@ export default class Cart extends Component {
             loading: true,
             message: "",
             restaurantName: "",
-            itemsToQuantity: {}
+            itemsToQuantity: {},
+            totalPrice: 0
         };
     }
 
@@ -25,14 +26,16 @@ export default class Cart extends Component {
                         this.setState({
                             restaurantName: responseCart.restaurantName,
                             loading: false,
-                            itemsToQuantity: responseCart.selectedItemsToQuantity
+                            itemsToQuantity: responseCart.selectedItemsToQuantity,
+                            totalPrice: this.getTotalPrice(responseCart.selectedItemsToQuantity)
                         });
                     });
                 } else {
                     response.json().then(response => response.messages.join("\n")).then(errorMsg => {
                         this.setState({
                             loading: true,
-                            message: errorMsg
+                            message: errorMsg,
+                            totalPrice: -1
                         });
                         console.log("Error loading quantity")
                     })
@@ -60,15 +63,23 @@ export default class Cart extends Component {
             })
     }
 
+    getTotalPrice(selectedItemsToQuantity) {
+        let price = 0;
+        Object.entries(selectedItemsToQuantity).map(function(item) {
+            price += JSON.parse(item[0]).price *  item[1]
+        });
+        return price;
+    }
+
     render() {
 
-        const {loading, message, restaurantName, itemsToQuantity} = this.state;
+        const {loading, message, restaurantName, itemsToQuantity, totalPrice} = this.state;
 
         console.log("State: ", this.state)
 
         const itemComponentList = Object.entries(itemsToQuantity).map(function(item) {
             console.log("Item: ", item[0])
-            return <CartItem key={item[0].name} foodItem={item[0]} quantity={item[1]}/>
+            return <CartItem key={JSON.parse(item[0]).name} foodItem={item[0]} quantity={item[1]}/>
         });
 
 
@@ -93,6 +104,7 @@ export default class Cart extends Component {
                     {!loading && (
                         <Fragment>
                             <h3>From Restaurant: {restaurantName}</h3>
+                            <h4>Total Price: {totalPrice}</h4>
                             <h4>Items:</h4>
                             <div>
                                 {itemComponentList}
