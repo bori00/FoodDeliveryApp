@@ -29,7 +29,6 @@ export default class MenuItem extends Component {
                             quantity: Number(responseQuantity),
                             fetchedQuantity: Number(responseQuantity)
                         });
-                        console.log(this.props.foodItem.name, ": ", responseQuantity)
                     });
                 } else {
                     response.json().then(response => response.messages.join("\n")).then(errorMsg => {

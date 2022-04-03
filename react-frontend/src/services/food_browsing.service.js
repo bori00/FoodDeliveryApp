@@ -3,16 +3,17 @@ import authHeader from "./auth-header";
 const API_URL = "http://localhost:8080/food-delivery/";
 
 class FoodBrowsingService {
-    getAdminsMenu() {
+    getAdminsMenu(selectedFoodCategories) {
 
         // todo: filter by categories
 
-        // let body = {"name": name, "address": address, "availableDeliveryZones":
-        // availableDeliveryZones}
+        var url = new URL(API_URL + "get_my_menu")
 
-        // console.log("body:", body)
+        var params = {filterFoodCategoryNames: selectedFoodCategories}
 
-        return fetch(API_URL + "get_my_menu", {
+        url.search = new URLSearchParams(params).toString();
+
+        return fetch(url, {
             method: 'GET',
             headers: Object.assign({}, {
                 'Accept': 'application/json',
@@ -23,13 +24,11 @@ class FoodBrowsingService {
     }
 
 
-    getRestaurantsMenuForCustomer(restaurantName) {
-
-        // todo: filtering by categories
+    getRestaurantsMenuForCustomer(restaurantName, selectedFoodCategories) {
 
         var url = new URL(API_URL + "get_restaurant_menu")
 
-        var params = {restaurantName: restaurantName}
+        var params = {restaurantName: restaurantName, filterFoodCategoryNames: selectedFoodCategories}
 
         url.search = new URLSearchParams(params).toString();
 
