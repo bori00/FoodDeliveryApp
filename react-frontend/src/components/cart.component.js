@@ -4,7 +4,7 @@ import Input from "react-validation/build/input";
 import Form from "react-validation/build/form";
 import CartService from "../services/cart.service"
 import OrderService from "../services/order.service"
-import CartItem from "./cart-item.component";
+import MenuItem from "./menu-item.component";
 
 
 export default class Cart extends Component {
@@ -21,21 +21,25 @@ export default class Cart extends Component {
     }
 
     onLoadCartContent() {
+        this.onLoadCartContentForGivenCart(this)
+    }
+
+    onLoadCartContentForGivenCart(cart) {
         CartService.getCustomersCartContent()
             .then(response => {
                 if (response.ok) {
                     response.json().then( responseCart => {
                         if (responseCart.restaurantName != null) {
-                            this.setState({
+                            cart.setState({
                                 restaurantName: responseCart.restaurantName,
                                 loading: false,
                                 itemsToQuantity: responseCart.selectedItemsToQuantity,
-                                totalPrice: this.getTotalPrice(responseCart.selectedItemsToQuantity),
+                                totalPrice: getTotalPrice(responseCart.selectedItemsToQuantity),
                                 emptyCart: false
                             });
                         } else {
                             console.log("EMPTY")
-                            this.setState({
+                            cart.setState({
                                 loading: false,
                                 emptyCart: true
                             });
@@ -43,7 +47,7 @@ export default class Cart extends Component {
                     });
                 } else {
                     response.json().then(response => response.messages.join("\n")).then(errorMsg => {
-                        this.setState({
+                        cart.setState({
                             loading: true,
                             message: errorMsg,
                             totalPrice: -1
@@ -88,10 +92,10 @@ export default class Cart extends Component {
         let itemComponentList;
 
         if (!emptyCart) {
+            const cart = this;
             itemComponentList = Object.entries(itemsToQuantity).map(function (item) {
                 console.log("Item: ", item[0])
-                return <CartItem key={JSON.parse(item[0]).name} foodItem={item[0]}
-                                 quantity={item[1]}/>
+                return <MenuItem key={JSON.parse(item[0]).name} foodItem={JSON.parse(item[0])} userIsAdmin={false} restaurantName={restaurantName} onCartQuantityChange={() => {cart.onLoadCartContentForGivenCart(cart)}}/>
             });
         } else {
             itemComponentList = <div/>
@@ -149,4 +153,12 @@ export default class Cart extends Component {
             </div>
         );
     }
+}
+
+function getTotalPrice(selectedItemsToQuantity) {
+    let price = 0;
+    Object.entries(selectedItemsToQuantity).map(function(item) {
+        price += JSON.parse(item[0]).price *  item[1]
+    });
+    return price;
 }

@@ -10,6 +10,7 @@ import CartService from "../services/cart.service"
 export default class MenuItem extends Component {
     constructor(props) {
         super(props);
+        /** props: restaurantName, foodItem, userIsAdmin, onCartQuantityChange */
         this.handleAddToCart = this.handleAddToCart.bind(this)
         this.onChangeQuantity = this.onChangeQuantity.bind(this)
         this.state = {
@@ -64,18 +65,23 @@ export default class MenuItem extends Component {
                         successful: true
                     });
                 }
+            }).then(() => {
+                if (this.props.onCartQuantityChange) {
+                    this.props.onCartQuantityChange()
+                }
             })
     }
 
     onChangeQuantity(e) {
         this.setState({
-            quantity: e.target.value
+            quantity: e.target.value,
+            message: undefined
         })
     }
 
     getAddToCartForm() {
         if (this.props.userIsAdmin) {
-            return <div></div>
+            return <div/>
         } else {
             return <Fragment>
                 <hr/>
