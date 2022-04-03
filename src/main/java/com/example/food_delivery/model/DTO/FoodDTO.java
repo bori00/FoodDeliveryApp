@@ -25,12 +25,12 @@ public class FoodDTO {
             "50")
     private String name;
 
-    @Positive
+    @Positive(message = "The price must be >= 0")
     private Double price;
 
     @Size(max = 200, message = "The description of a menu item can be at most 200 characters long.")
     private String description;
 
-    @NotBlank
+    @NotBlank(message = "The food's category must be specified")
     private String foodCategory;
 }

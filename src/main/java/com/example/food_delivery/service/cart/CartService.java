@@ -3,6 +3,8 @@ package com.example.food_delivery.service.cart;
 import com.example.food_delivery.model.CartItem;
 import com.example.food_delivery.model.Customer;
 import com.example.food_delivery.model.DTO.CartItemDTO;
+import com.example.food_delivery.model.DTO.CustomerCartDTO;
+import com.example.food_delivery.model.DTO.FoodDTO;
 import com.example.food_delivery.model.Food;
 import com.example.food_delivery.model.Restaurant;
 import com.example.food_delivery.repository.CartItemRepository;
@@ -18,7 +20,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.AbstractMap;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CartService {
@@ -76,6 +80,39 @@ public class CartService {
         } else if (cartItemDTO.getQuantity() > 0) {
             CartItem cartItem = new CartItem(cartItemDTO.getQuantity(), activeUser, optFood.get());
             cartItemRepository.save(cartItem);
+        }
+    }
+
+    public CustomerCartDTO getCustomersCartContent() throws AccessRestrictedToCustomersException {
+        Customer activeUser = authenticationService.getCurrentCustomer();
+
+        if (activeUser.getCartItems().isEmpty()) {
+            return new CustomerCartDTO(null, null);
+        }
+
+        String restaurantName =
+                activeUser.getCartItems().iterator().next().getFood().getRestaurant().getName();
+        return new CustomerCartDTO(restaurantName,
+                activeUser.getCartItems()
+                        .stream()
+                        .collect(Collectors.toMap(cartItem -> mapper.map(cartItem.getFood(),
+                                FoodDTO.class), CartItem::getQuantity))
+        );
+    }
+
+    public Integer getCartItemQuantity(String itemName, String restaurantName) throws AccessRestrictedToCustomersException {
+        Customer activeUser = authenticationService.getCurrentCustomer();
+
+        Optional<CartItem> cartItem =
+                activeUser.getCartItems()
+                        .stream()
+                        .filter(item -> item.getFood().getName().equals(itemName) && item.getFood().getRestaurant().getName().equals(restaurantName))
+                        .findFirst();
+
+        if (cartItem.isPresent()) {
+            return cartItem.get().getQuantity();
+        } else {
+            return 0;
         }
     }
 }

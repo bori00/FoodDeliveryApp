@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -32,13 +34,18 @@ public class FoodOrder {
     @JoinColumn(name = "restaurant_id", referencedColumnName = "Id")
     private Restaurant restaurant;
 
+    @Column(nullable = false)
+    private LocalDateTime dateTime;
+
     @OneToMany(mappedBy = "foodOrder", cascade = CascadeType.ALL)
     private Set<OrderItem> orderItems;
 
-    public FoodOrder(OrderStatus orderStatus, Customer customer, Restaurant restaurant) {
+    public FoodOrder(OrderStatus orderStatus, Customer customer, Restaurant restaurant,
+                     LocalDateTime localDateTime) {
         this.orderStatus = orderStatus;
         this.customer = customer;
         this.restaurant = restaurant;
+        this.dateTime = localDateTime;
         this.orderItems = new HashSet<>();
     }
 

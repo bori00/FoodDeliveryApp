@@ -3,6 +3,7 @@ package com.example.food_delivery.service.admin_order_management;
 import com.example.food_delivery.model.DTO.AdminOrderDTO;
 import com.example.food_delivery.model.DTO.FoodDTO;
 import com.example.food_delivery.model.FoodOrder;
+import com.example.food_delivery.model.OrderItem;
 import com.example.food_delivery.model.RestaurantAdmin;
 import com.example.food_delivery.repository.FoodOrderRepository;
 import com.example.food_delivery.repository.RestaurantRepository;
@@ -33,7 +34,7 @@ public class AdminOrderService {
     @Autowired
     private ModelMapper mapper;
 
-    public List<AdminOrderDTO> getFilteredRestaurantsOrders(Collection<FoodOrder.OrderStatus> statuses) throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
+    public List<AdminOrderDTO> getFilteredSortedRestaurantsOrders(Collection<FoodOrder.OrderStatus> statuses) throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
         // get active user
         RestaurantAdmin admin = authenticationService.getCurrentAdmin();
 
@@ -42,21 +43,23 @@ public class AdminOrderService {
             throw new NoRestaurantSetupForAdminException();
         }
 
-        return foodOrderRepository.findAllByOrderStatusInAndRestaurant(statuses, admin.getRestaurant())
+        if (statuses.isEmpty()) {
+            statuses = Arrays.asList(FoodOrder.OrderStatus.values());
+        }
+
+        return foodOrderRepository.findAllByOrderStatusInAndRestaurantOrderByDateTimeDesc(statuses,
+                admin.getRestaurant())
                 .stream()
                 .map(order -> new AdminOrderDTO(
-                        order.getId(),
-                        order.getCustomer().getUserName(),
-                        order.getOrderStatus().toString(),
-                        order.getOrderItems().stream()
-                                .map(orderItem ->
-                                        new AbstractMap.SimpleEntry<>(
-                                                mapper.map(orderItem.getFood(), FoodDTO.class),
-                                                orderItem.getQuantity()
-                                        ))
-                                .collect(Collectors.toMap(
-                                        AbstractMap.SimpleEntry::getKey,
-                                        AbstractMap.SimpleEntry::getValue))))
+                            order.getId(),
+                            order.getCustomer().getUserName(),
+                            order.getOrderStatus().toString(),
+                            order.getDateTime(),
+                            order.getOrderItems().stream()
+                                    .collect(Collectors.toMap(
+                                            orderItem -> mapper.map(orderItem.getFood(), FoodDTO.class),
+                                            OrderItem::getQuantity)))
+                        )
                 .collect(Collectors.toList());
     }
 

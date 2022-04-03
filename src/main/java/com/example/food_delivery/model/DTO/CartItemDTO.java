@@ -17,7 +17,7 @@ public class CartItemDTO {
     @NotBlank(message = "The cart item must refer to an existing food")
     private String foodName;
 
-    @PositiveOrZero
+    @PositiveOrZero(message = "The quantity must be >= 0")
     private Integer quantity;
 
     @NotBlank(message = "Each cart item must refer to a restaurant's menu item")

@@ -181,7 +181,7 @@ public class GlobalControllerExceptionHandler {
         return new ExceptionResponse(List.of("The requested order was not found"));
     }
 
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(HttpStatus.FORBIDDEN) //403
     @ExceptionHandler(InvalidOrderStatusChangeException.class)
     public @ResponseBody
     ExceptionResponse handleInvalidOrderStatusChangeException(
