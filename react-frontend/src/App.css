@@ -92,3 +92,9 @@ button {
 .menuItemCard {
   padding: 5px 25px 5px;
 }
+
+.lineComp label, .lineComp input {
+  float: none; /* if you had floats before? otherwise inline-block will behave differently */
+  display: inline-block;
+  vertical-align: middle;
+}

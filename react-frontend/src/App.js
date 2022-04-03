@@ -7,8 +7,6 @@ import AuthService from "./services/auth.service";
 import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Home from "./components/home.component";
-import BoardCustomer from "./components/board-customer.component";
-import BoardAdmin from "./components/board-admin.component";
 import RestaurantSetup from "./components/restaurant-setup.component";
 import AddFood from "./components/add-food.component";
 import Menu from "./components/menu.component"

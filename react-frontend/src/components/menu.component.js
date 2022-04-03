@@ -49,7 +49,7 @@ export default class Menu extends Component {
         const {loading, menu_items} = this.state;
 
         const itemList = menu_items.map(menu_item => {
-            return <MenuItem key={menu_item.name} foodItem={menu_item} userIsAdmin={isAdmin}/>
+            return <MenuItem key={menu_item.name} foodItem={menu_item} userIsAdmin={isAdmin} restaurantName={restaurantName}/>
         });
 
 

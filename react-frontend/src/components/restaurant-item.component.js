@@ -22,9 +22,7 @@ export default class RestaurantItem extends Component {
                     <Card.Text>
                         Delivers to: {restaurant.availableDeliveryZoneNames.join(", ")}
                     </Card.Text>
-                    <Button variant="link" href={menuLink}>
-                        View Menu
-                    </Button>
+                    <Card.Link href={menuLink}>View Menu</Card.Link>
                 </Card.Body>
             </Card>
         );
