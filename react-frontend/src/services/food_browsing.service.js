@@ -44,6 +44,7 @@ class FoodBrowsingService {
         var url = new URL(API_URL + "get_filtered_restaurants")
 
         var params = {nameSubString: restaurantNameSubStr, deliveryZoneName: deliveryZone}
+        params = new URLSearchParams(params);
         let keysForDel = [];
 
         params.forEach((value, key) => {
