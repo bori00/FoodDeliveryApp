@@ -20,7 +20,7 @@ export default class RestaurantItem extends Component {
                     <Card.Title>{restaurant.name}</Card.Title>
                     <Card.Subtitle className="mb-3 text-muted">Address: {restaurant.address}</Card.Subtitle>
                     <Card.Text>
-                        Delivers to: {restaurant.availableDeliveryZoneNames.join(", ")}
+                        Delivers to: {restaurant.availableDeliveryZones.join(", ")}
                     </Card.Text>
                     <Card.Link href={menuLink}>View Menu</Card.Link>
                 </Card.Body>

@@ -11,14 +11,11 @@ import com.example.food_delivery.service.authentication.AuthenticationService;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
 import com.example.food_delivery.service.filtering.FilteringFacadeService;
 import com.example.food_delivery.service.restaurant_management.exceptions.*;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import javax.management.modelmbean.ModelMBean;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -56,9 +53,13 @@ public class RestaurantManagementService {
             throw new MoreThanOneRestaurantPerAdminException();
         }
 
+        if (restaurantDTO.getAvailableDeliveryZones() == null) {
+            restaurantDTO.setAvailableDeliveryZones(new HashSet<>());
+        }
+
         // find available delivery zones, ensure that there's at least one of them
         Set<DeliveryZone> deliveryZones =
-                deliveryZoneRepository.findAllByNameIn(restaurantDTO.getAvailableDeliveryZoneNames());
+                deliveryZoneRepository.findAllByNameIn(restaurantDTO.getAvailableDeliveryZones());
         if (deliveryZones.isEmpty()) {
             throw new MissingAvailableDeliveryZoneException();
         }

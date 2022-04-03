@@ -16,19 +16,6 @@ public class FoodDeliveryApplication {
         SpringApplication.run(FoodDeliveryApplication.class, args);
     }
 
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurer() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/**")
-//                        .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH")
-//                        .allowedOrigins("*")
-//                        .allowedHeaders("*");
-//            }
-//        };
-//    }
-
     @Bean
     protected CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

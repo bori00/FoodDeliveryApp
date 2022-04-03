@@ -23,5 +23,5 @@ public class RestaurantDTO {
             "and 500")
     private String address;
 
-    private Set<String> availableDeliveryZoneNames;
+    private Set<String> availableDeliveryZones;
 }

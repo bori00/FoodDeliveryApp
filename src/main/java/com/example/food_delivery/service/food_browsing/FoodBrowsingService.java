@@ -4,7 +4,6 @@ import com.example.food_delivery.model.DTO.FoodDTO;
 import com.example.food_delivery.model.DTO.RestaurantDTO;
 import com.example.food_delivery.model.DeliveryZone;
 import com.example.food_delivery.model.Food;
-import com.example.food_delivery.model.FoodCategory;
 import com.example.food_delivery.model.Restaurant;
 import com.example.food_delivery.repository.DeliveryZoneRepository;
 import com.example.food_delivery.repository.RestaurantRepository;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,7 +43,7 @@ public class FoodBrowsingService {
                 .map(restaurant -> {
                     RestaurantDTO res = mapper.map(restaurant,
                             RestaurantDTO.class);
-                    res.setAvailableDeliveryZoneNames(restaurant.getAvailableDeliveryZones().stream().map(DeliveryZone::getName).collect(Collectors.toSet()));
+                    res.setAvailableDeliveryZones(restaurant.getAvailableDeliveryZones().stream().map(DeliveryZone::getName).collect(Collectors.toSet()));
                     return res;
                 })
                 .collect(Collectors.toList());
