@@ -13,6 +13,7 @@ import Menu from "./components/menu.component"
 import RestaurantList from "./components/restaurant-list.component";
 import Cart from "./components/cart.component"
 import CustomerOrderHistory from "./components/customer-order-history";
+import OrderManagement from "./components/manage-orders.component";
 
 class App extends Component {
     constructor(props) {
@@ -60,7 +61,7 @@ class App extends Component {
                         )}
                         {showRestaurantOwnerAdminBoard && (
                             <li className="nav-item">
-                                <Link to={"/admin"} className="nav-link">
+                                <Link to={"/order-management"} className="nav-link">
                                     Orders
                                 </Link>
                             </li>
@@ -135,6 +136,7 @@ class App extends Component {
                             <Route exact path="/restaurants"  component={RestaurantList} />
                             <Route exact path="/cart"  component={Cart} />
                             <Route exact path="/customer-order-history"  component={CustomerOrderHistory} />
+                            <Route exact path="/order-management"  component={OrderManagement} />
                         </Switch>
                 </div>
             </div>

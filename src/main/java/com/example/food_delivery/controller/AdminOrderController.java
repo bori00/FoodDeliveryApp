@@ -28,7 +28,7 @@ public class AdminOrderController {
 
     @GetMapping("/see_restaurants_sorted_filtered_orders")
     @PreAuthorize("hasAuthority('RESTAURANT_ADMIN')")
-    public List<AdminOrderDTO> getFilteredRestaurantsOrders(@RequestBody List<FoodOrder.OrderStatus> statuses) throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
+    public List<AdminOrderDTO> getFilteredRestaurantsOrders(@RequestParam List<FoodOrder.OrderStatus> statuses) throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
         return adminOrderService.getFilteredSortedRestaurantsOrders(statuses);
     }
 

@@ -30,7 +30,7 @@ export default class Order extends Component {
         return (
             <Card className="fitToParent menuItemCard">
                 <Card.Body>
-                    <Card.Title>Restaurant: {order.restaurantName}</Card.Title>
+                    {this.getCardTitle(order)}
                     <Card.Subtitle className="mb-3 text-muted"><b>Time: {dateTime}</b></Card.Subtitle>
                     <Card.Subtitle className="mb-2 text-muted">Status: {order.status}</Card.Subtitle>
                     <Card.Subtitle className="mb-2 text-muted">Total Price: {total_price}$</Card.Subtitle>
@@ -40,6 +40,14 @@ export default class Order extends Component {
                 </Card.Body>
             </Card>
         );
+    }
+
+    getCardTitle(order) {
+        if (order.restaurantName) {
+            return <Card.Title>Restaurant: {order.restaurantName}</Card.Title>
+        } else {
+            return <Card.Title>Client: {order.clientName}</Card.Title>
+        }
     }
 
     getTotalPrice(orderedItemsToQuantity) {

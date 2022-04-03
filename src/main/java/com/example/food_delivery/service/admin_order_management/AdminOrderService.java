@@ -43,6 +43,10 @@ public class AdminOrderService {
             throw new NoRestaurantSetupForAdminException();
         }
 
+        if (statuses.isEmpty()) {
+            statuses = Arrays.asList(FoodOrder.OrderStatus.values());
+        }
+
         return foodOrderRepository.findAllByOrderStatusInAndRestaurantOrderByDateTimeDesc(statuses,
                 admin.getRestaurant())
                 .stream()
