@@ -42,6 +42,11 @@ export default class Menu extends Component {
 
     loadMenu() {
         console.log("Load menu categories: ", this.state.selectedFoodCategories)
+        this.setState({
+            loading: true,
+            menu_items: []
+        });
+
         let menuPromise;
         if (this.props.match.params.restaurant === 'admins') {
             menuPromise = MenuService.getAdminsMenu(this.state.selectedFoodCategories)

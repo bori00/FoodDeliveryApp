@@ -12,6 +12,7 @@ export default class Order extends Component {
         /** props:
          * foodOrder, either of CustomerOrderDTO, or AdminOrderDTO type.
          * userIsAdmin: boolean
+         * onStatusChange: callback
          */
         super(props);
         this.handleChangeOrderStatus = this.handleChangeOrderStatus.bind(this)
@@ -30,7 +31,7 @@ export default class Order extends Component {
     }
 
     setNextPossiblesStates() {
-        UtilService.getAllPossibleNextOrderStatuses(this.state.currentStatus)
+        return UtilService.getAllPossibleNextOrderStatuses(this.state.currentStatus)
             .then(response => {
                     if (response.ok) {
                         response.json().then(response => {
@@ -60,9 +61,14 @@ export default class Order extends Component {
                             currentStatus: this.state.selectedNewStatus,
                             selectedNewStatus: ""
                         }, () => {
-                            this.setNextPossiblesStates()
+                            if (this.props.userIsAdmin) {
+                                this.setNextPossiblesStates().then(() => {
+                                    if (this.props.onStatusChange) {
+                                        this.props.onStatusChange();
+                                    }
+                                })
+                            }
                         })
-                        this.componentDidMount();
                     } else {
                         response.json().then(response => response.messages.join("\n")).then(errorMsg => {
                             this.setState({

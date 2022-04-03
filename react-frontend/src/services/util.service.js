@@ -44,5 +44,18 @@ class UtilService {
         })
     }
 
+    getAllPossibleOrderStatuses() {
+        var url = new URL(API_URL + "util/get_all_possible_order_statuses")
+
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                "charset": "UTF-8"
+            }
+        })
+    }
+
 }
 export default new UtilService();
