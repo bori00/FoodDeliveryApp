@@ -155,7 +155,6 @@ export default class AddFood extends Component {
                                 name="description"
                                 value={this.state.description}
                                 onChange={this.onChangeDescription}
-                                validations={[required]}
                             />
                         </div>
                         <div className="form-group">

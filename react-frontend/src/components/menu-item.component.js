@@ -21,24 +21,27 @@ export default class MenuItem extends Component {
     }
 
     componentDidMount() {
-        CartService.getItemCartQuantity(this.props.foodItem.name, this.props.restaurantName)
-            .then(response => {
-                if (response.ok) {
-                    response.json().then(responseQuantity => {
-                        this.setState({
-                            quantity: Number(responseQuantity),
-                            fetchedQuantity: Number(responseQuantity)
-                        });
-                    });
-                } else {
-                    response.json().then(response => response.messages.join("\n")).then(errorMsg => {
-                        this.setState({
-                            message: errorMsg
-                        });
-                        console.log("Error loading quantity")
-                    })
-                }}
-            );
+        if (!this.props.userIsAdmin) {
+            CartService.getItemCartQuantity(this.props.foodItem.name, this.props.restaurantName)
+                .then(response => {
+                        if (response.ok) {
+                            response.json().then(responseQuantity => {
+                                this.setState({
+                                    quantity: Number(responseQuantity),
+                                    fetchedQuantity: Number(responseQuantity)
+                                });
+                            });
+                        } else {
+                            response.json().then(response => response.messages.join("\n")).then(errorMsg => {
+                                this.setState({
+                                    message: errorMsg
+                                });
+                                console.log("Error loading quantity")
+                            })
+                        }
+                    }
+                );
+        }
     }
 
     handleAddToCart() {
@@ -70,6 +73,57 @@ export default class MenuItem extends Component {
         })
     }
 
+    getAddToCartForm() {
+        if (this.props.userIsAdmin) {
+            return <div></div>
+        } else {
+            return <Fragment>
+                <hr/>
+
+                <Card.Body>
+                    <Form
+                        ref={c => {
+                            this.form = c;
+                        }}
+                        history={this.props.history}
+                    >
+                        <div className={"lineComp"}>
+                            <div>
+                                <label htmlFor="quantity">Cart Quantity:</label>
+                                <Input
+                                    type="number"
+                                    name="quantity"
+                                    value={String(this.state.quantity)}
+                                    onChange={this.onChangeQuantity}
+                                    validations={[required]}
+                                />
+                            </div>
+                            <div className="text-center">
+                                <button className="btn btn-secondary btn-block" type="button" onClick={this.handleAddToCart}>
+                                    <span>Save</span>
+                                </button>
+                            </div>
+                        </div>
+                    </Form>
+                    {this.state.message && (
+                        <div className="form-group">
+                            <div
+                                className={
+                                    this.state.successful
+                                        ? "alert alert-success"
+                                        : "alert alert-danger"
+                                }
+                                role="alert"
+                            >
+                                {this.state.message}
+                            </div>
+                        </div>
+                    )}
+                </Card.Body>
+            </Fragment>
+        }
+    }
+
     render() {
 
         const foodItem = this.props.foodItem;
@@ -85,50 +139,7 @@ export default class MenuItem extends Component {
                         {foodItem.description}
                     </Card.Text>
 
-                    <hr/>
-
-                    {/*{!userIsAdmin & (*/}
-                        <Card.Body>
-                            <Form
-                                ref={c => {
-                                    this.form = c;
-                                }}
-                                history={this.props.history}
-                            >
-                                <div className={"lineComp"}>
-                                    <div>
-                                        <label htmlFor="quantity">Cart Quantity:</label>
-                                        <Input
-                                            type="number"
-                                            name="quantity"
-                                            value={String(this.state.quantity)}
-                                            onChange={this.onChangeQuantity}
-                                            validations={[required]}
-                                        />
-                                    </div>
-                                    <div className="text-center">
-                                        <button className="btn btn-secondary btn-block" type="button" onClick={this.handleAddToCart}>
-                                            <span>Save</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </Form>
-                            {this.state.message && (
-                                <div className="form-group">
-                                    <div
-                                        className={
-                                            this.state.successful
-                                                ? "alert alert-success"
-                                                : "alert alert-danger"
-                                        }
-                                        role="alert"
-                                    >
-                                        {this.state.message}
-                                    </div>
-                                </div>
-                            )}
-                        </Card.Body>
-                    {/*)}*/}
+                    {this.getAddToCartForm()}
                 </Card.Body>
             </Card>
         );
