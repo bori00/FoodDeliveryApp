@@ -9,6 +9,11 @@ import com.example.food_delivery.service.admin_order_management.order_states.exc
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToCustomersException;
 import com.example.food_delivery.service.restaurant_management.exceptions.NoRestaurantSetupForAdminException;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -32,31 +37,19 @@ public class AdminOrderController {
         return adminOrderService.getFilteredSortedRestaurantsOrders(statuses);
     }
 
-    @PostMapping("/accept_order")
+    @PostMapping("/change_order_status")
     @PreAuthorize("hasAuthority('RESTAURANT_ADMIN')")
-    public void acceptOrder(@Valid @NotNull @RequestBody Long orderId) throws InvalidOrderStatusChangeException,
+    public void changeOrderStatus(@RequestBody OrderStatusChangeCommand command) throws InvalidOrderStatusChangeException,
             RequestedOrderNotFoundException, AccessRestrictedToAdminsException {
-        adminOrderService.updateOrderState(orderId, FoodOrder.OrderStatus.ACCEPTED);
+        adminOrderService.updateOrderState(command.orderId, command.newStatus);
     }
 
-    @PostMapping("/decline_order")
-    @PreAuthorize("hasAuthority('RESTAURANT_ADMIN')")
-    public void declineOrder(@Valid @NotNull @RequestBody Long orderId) throws InvalidOrderStatusChangeException,
-            RequestedOrderNotFoundException, AccessRestrictedToAdminsException {
-        adminOrderService.updateOrderState(orderId, FoodOrder.OrderStatus.DECLINED);
-    }
-
-    @PostMapping("/start_order_delivery")
-    @PreAuthorize("hasAuthority('RESTAURANT_ADMIN')")
-    public void startOrderDelivery(@Valid @NotNull @RequestBody Long orderId) throws InvalidOrderStatusChangeException,
-            RequestedOrderNotFoundException, AccessRestrictedToAdminsException {
-        adminOrderService.updateOrderState(orderId, FoodOrder.OrderStatus.IN_DELIVERY);
-    }
-
-    @PostMapping("/finish_order_delivery")
-    @PreAuthorize("hasAuthority('RESTAURANT_ADMIN')")
-    public void finishOrderDelivery(@Valid @NotNull @RequestBody Long orderId) throws InvalidOrderStatusChangeException,
-            RequestedOrderNotFoundException, AccessRestrictedToAdminsException {
-        adminOrderService.updateOrderState(orderId, FoodOrder.OrderStatus.DELIVERED);
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class OrderStatusChangeCommand {
+        private Long orderId;
+        private FoodOrder.OrderStatus newStatus;
     }
 }

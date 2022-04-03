@@ -36,5 +36,19 @@ class OrderService {
             headers: authHeader(),
         })
     }
+
+    changeOrderStatus(orderId, newstatus) {
+        let body = {"orderId": orderId, "newStatus": newstatus}
+
+        return fetch(API_URL + "change_order_status", {
+            method: 'POST',
+            headers: Object.assign({}, {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                "charset": "UTF-8"
+            }, authHeader()),
+            body: JSON.stringify(body)
+        })
+    }
 }
 export default new OrderService();

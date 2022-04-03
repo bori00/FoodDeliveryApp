@@ -42,7 +42,7 @@ export default class CustomerOrderHistory extends Component {
         let key = -1;
         const orderList = orders.map(order => {
             key++;
-            return <Order key={key} foodOrder={order}/>
+            return <Order key={key} foodOrder={order} userIsAdmin={false}/>
         });
 
 
