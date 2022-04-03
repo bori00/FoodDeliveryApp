@@ -16,6 +16,9 @@ export default class RestaurantItem extends Component {
                 <Card.Body>
                     <Card.Title>{restaurant.name}</Card.Title>
                     <Card.Subtitle className="mb-3 text-muted">Address: {restaurant.address}</Card.Subtitle>
+                    <Card.Text>
+                        Delivers to: {restaurant.availableDeliveryZoneNames.join(", ")}
+                    </Card.Text>
                 </Card.Body>
             </Card>
         );

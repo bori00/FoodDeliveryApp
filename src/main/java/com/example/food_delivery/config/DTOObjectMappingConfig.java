@@ -28,21 +28,6 @@ public class DTOObjectMappingConfig {
                 FoodDTO::setFoodCategory
         );
 
-        // Restaurant -> RestaurantDTO mapping
-        TypeMap<Restaurant, RestaurantDTO> propertyMapper2 = mapper.createTypeMap(Restaurant.class,
-                RestaurantDTO.class);
-        propertyMapper2.addMapping(
-                srcRestaurant -> {
-                    if (srcRestaurant.getAvailableDeliveryZones() != null) {
-                        return srcRestaurant.getAvailableDeliveryZones().stream().map(DeliveryZone::getName).collect(Collectors.toSet());
-                    } else {
-                        return new HashSet<>();
-                    }
-                },
-                RestaurantDTO::setAvailableDeliveryZones
-        );
-
-
         return mapper;
     }
 }

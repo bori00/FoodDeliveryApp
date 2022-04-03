@@ -51,8 +51,15 @@ public class FoodBrowsingService {
             restaurants = restaurantRepository.findAll();
         }
 
-        return  restaurants.stream().map(restaurant -> mapper.map(restaurant,
-                RestaurantDTO.class)).collect(Collectors.toList());
+        return  restaurants
+                .stream()
+                .map(restaurant -> {
+                    RestaurantDTO res = mapper.map(restaurant,
+                            RestaurantDTO.class);
+                    res.setAvailableDeliveryZoneNames(restaurant.getAvailableDeliveryZones().stream().map(DeliveryZone::getName).collect(Collectors.toSet()));
+                    return res;
+                })
+                .collect(Collectors.toList());
     }
 
     public List<FoodDTO> getRestaurantMenu(String restaurantName) throws RestaurantNotFoundException {
