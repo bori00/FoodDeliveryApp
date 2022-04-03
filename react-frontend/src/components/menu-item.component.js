@@ -73,7 +73,7 @@ export default class MenuItem extends Component {
             <Card className="fitToParent menuItemCard">
                 <Card.Body>
                     <Card.Title>{foodItem.name}</Card.Title>
-                    <Card.Subtitle className="mb-3 text-muted">Price: {foodItem.price}</Card.Subtitle>
+                    <Card.Subtitle className="mb-3 text-muted">Price: {foodItem.price}$</Card.Subtitle>
                     <Card.Subtitle className="mb-2 text-muted">{foodItem.foodCategory}</Card.Subtitle>
                     <Card.Text>
                         {foodItem.description}

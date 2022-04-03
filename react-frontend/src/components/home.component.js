@@ -12,7 +12,7 @@ export default class Home extends Component {
         return (
             <div className="container">
                 <header className="jumbotron">
-                    <h3>Home</h3>
+                    <h3>"People who love to eat are always the best people."</h3>
                 </header>
             </div>
         );

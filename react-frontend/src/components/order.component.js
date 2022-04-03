@@ -25,13 +25,18 @@ export default class Order extends Component {
 
         const total_price = this.getTotalPrice(order.orderedItemsToQuantity)
 
+        const order_content = this.getOrderContent(order.orderedItemsToQuantity)
+
         return (
             <Card className="fitToParent menuItemCard">
                 <Card.Body>
                     <Card.Title>Restaurant: {order.restaurantName}</Card.Title>
                     <Card.Subtitle className="mb-3 text-muted"><b>Time: {dateTime}</b></Card.Subtitle>
                     <Card.Subtitle className="mb-2 text-muted">Status: {order.status}</Card.Subtitle>
-                    <Card.Subtitle className="mb-2 text-muted">Total Price: {total_price}</Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted">Total Price: {total_price}$</Card.Subtitle>
+                    <Card.Text>
+                        {order_content}
+                    </Card.Text>
                 </Card.Body>
             </Card>
         );
@@ -47,5 +52,12 @@ export default class Order extends Component {
 
     getDateTimeString(dateTime) {
         return dateTime[2] + "." + dateTime[1] + "." + dateTime[0] + ", " + dateTime[3] + ":" + dateTime[4]
+    }
+
+    getOrderContent(orderedItemsToQuantity) {
+        return Object.entries(orderedItemsToQuantity).map(function(item) {
+            const foodItem = JSON.parse(item[0])
+            return <p>{foodItem.name}  ................   {foodItem.price}$ x {item[1]}</p>
+        })
     }
 }

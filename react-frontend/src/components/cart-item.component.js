@@ -26,8 +26,8 @@ export default class CartItem extends Component {
             <Card className="fitToParent menuItemCard">
                 <Card.Body>
                     <Card.Title>{foodItem.name}</Card.Title>
-                    <Card.Subtitle className="mb-3 text-muted"><b>Total Price: {total_price}</b></Card.Subtitle>
-                    <Card.Subtitle className="mb-2 text-muted">Unit Price: {foodItem.price}, Quantity: {quantity}</Card.Subtitle>
+                    <Card.Subtitle className="mb-3 text-muted"><b>Total Price: {total_price}$</b></Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted">Unit Price: {foodItem.price}$, Quantity: {quantity}</Card.Subtitle>
                     <Card.Subtitle className="mb-2 text-muted">{foodItem.foodCategory}</Card.Subtitle>
                     <Card.Text>
                         {foodItem.description}

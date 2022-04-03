@@ -17,7 +17,6 @@ export default class CustomerOrderHistory extends Component {
             .then(response => {
                 if (response.ok) {
                     response.json().then( responseOrders => {
-                        console.log(responseOrders)
                         this.setState({
                             loading: false,
                             orders: responseOrders
@@ -38,14 +37,11 @@ export default class CustomerOrderHistory extends Component {
 
     render() {
 
-        console.log(this.state.orders)
-
         const {loading, message, orders} = this.state;
 
         let key = -1;
         const orderList = orders.map(order => {
             key++;
-            console.log("Order: ", order)
             return <Order key={key} foodOrder={order}/>
         });
 
