@@ -34,9 +34,9 @@ export default class Order extends Component {
                     <Card.Subtitle className="mb-3 text-muted"><b>Time: {dateTime}</b></Card.Subtitle>
                     <Card.Subtitle className="mb-2 text-muted">Status: {order.status}</Card.Subtitle>
                     <Card.Subtitle className="mb-2 text-muted">Total Price: {total_price}$</Card.Subtitle>
-                    <Card.Text>
+                    <div>
                         {order_content}
-                    </Card.Text>
+                    </div>
                 </Card.Body>
             </Card>
         );
@@ -55,9 +55,11 @@ export default class Order extends Component {
     }
 
     getOrderContent(orderedItemsToQuantity) {
+        let id = -1;
         return Object.entries(orderedItemsToQuantity).map(function(item) {
             const foodItem = JSON.parse(item[0])
-            return <p>{foodItem.name}  ................   {foodItem.price}$ x {item[1]}</p>
+            id++;
+            return <p key={id}>{foodItem.name}  ................   {foodItem.price}$ x {item[1]}</p>
         })
     }
 }

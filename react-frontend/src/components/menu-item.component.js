@@ -15,7 +15,8 @@ export default class MenuItem extends Component {
         this.state = {
             fetchedQuantity: 0,
             quantity: 0,
-            message: ""
+            message: "",
+            successful: true
         };
     }
 
@@ -50,10 +51,16 @@ export default class MenuItem extends Component {
                     });
                     response.json().then(response => response.messages.join("\n")).then(errorMsg => {
                         this.setState({
-                            message: errorMsg
+                            message: errorMsg,
+                            successful: false
                         });
                     })
                     console.log("Error loading possible food categories")
+                } else {
+                    this.setState({
+                        message: "Saved",
+                        successful: true
+                    });
                 }
             })
     }
@@ -84,7 +91,6 @@ export default class MenuItem extends Component {
                     {/*{!userIsAdmin & (*/}
                         <Card.Body>
                             <Form
-                                // onSubmit={this.handleAddToCart}
                                 ref={c => {
                                     this.form = c;
                                 }}
