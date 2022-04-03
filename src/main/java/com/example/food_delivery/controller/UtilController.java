@@ -32,4 +32,9 @@ public class UtilController {
     public List<String> getAllPossibleNextOrderStatuses(@RequestParam FoodOrder.OrderStatus currentStatus) {
         return utilService.getAllPossibleNextOrderStatuses(currentStatus);
     }
+
+    @GetMapping("/get_all_possible_order_statuses")
+    public List<String> getAllPossibleOrderStatuses() {
+        return utilService.getAllPossibleOrderStatuses();
+    }
 }

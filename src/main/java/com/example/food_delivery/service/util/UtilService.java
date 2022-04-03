@@ -39,4 +39,8 @@ public class UtilService {
     public List<String> getAllPossibleNextOrderStatuses(FoodOrder.OrderStatus orderStatus) {
         return OrderStateFactory.createOrderState(orderStatus).getAllowedTransitions().stream().map(Enum::toString).collect(Collectors.toList());
     }
+
+    public List<String> getAllPossibleOrderStatuses() {
+        return Arrays.stream(FoodOrder.OrderStatus.values()).map(Enum::toString).collect(Collectors.toList());
+    }
 }
