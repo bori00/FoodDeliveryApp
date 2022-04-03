@@ -38,7 +38,8 @@ public class FoodBrowsingController {
 
     @GetMapping("/get_restaurant_menu")
     @PreAuthorize("hasAuthority('CUSTOMER')")
-    public List<FoodDTO> getRestaurantMenu(@RequestParam String restaurantName) throws RestaurantNotFoundException {
-        return foodBrowsingService.getRestaurantMenu(restaurantName);
+    public List<FoodDTO> getRestaurantMenu(@RequestParam String restaurantName,
+                                           @RequestParam List<String> filterFoodCategoryNames) throws RestaurantNotFoundException {
+        return foodBrowsingService.getRestaurantMenu(restaurantName, filterFoodCategoryNames);
     }
 }

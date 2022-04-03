@@ -3,9 +3,12 @@ package com.example.food_delivery.service.food_browsing;
 import com.example.food_delivery.model.DTO.FoodDTO;
 import com.example.food_delivery.model.DTO.RestaurantDTO;
 import com.example.food_delivery.model.DeliveryZone;
+import com.example.food_delivery.model.Food;
+import com.example.food_delivery.model.FoodCategory;
 import com.example.food_delivery.model.Restaurant;
 import com.example.food_delivery.repository.DeliveryZoneRepository;
 import com.example.food_delivery.repository.RestaurantRepository;
+import com.example.food_delivery.service.filtering.FilteringFacadeService;
 import com.example.food_delivery.service.food_browsing.exceptions.RestaurantNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,27 +32,13 @@ public class FoodBrowsingService {
     @Autowired
     private ModelMapper mapper;
 
+    @Autowired
+    private FilteringFacadeService filteringFacadeService;
+
     public List<RestaurantDTO> getFilteredRestaurants(@Nullable String nameSubstring,
                                                       @Nullable String deliveryZoneName) {
-        List<Restaurant> restaurants = new ArrayList<>();
-
-        Optional<DeliveryZone> deliveryZone = Optional.empty();
-        if (deliveryZoneName != null) {
-            deliveryZone = deliveryZoneRepository.findByName(deliveryZoneName);
-        }
-
-        if (nameSubstring != null && deliveryZone.isPresent()) {
-            restaurants =
-                    restaurantRepository.findAllByNameContainingAndAvailableDeliveryZonesContains(
-                            nameSubstring, deliveryZone.get());
-        } else if (nameSubstring != null) {
-            restaurants = restaurantRepository.findAllByNameContaining(nameSubstring);
-        } else if (deliveryZone.isPresent()) {
-            restaurants =
-                    restaurantRepository.findAllByAvailableDeliveryZonesContains(deliveryZone.get());
-        } else {
-            restaurants = restaurantRepository.findAll();
-        }
+        List<Restaurant> restaurants =
+                filteringFacadeService.getFilteredRestaurants(nameSubstring, deliveryZoneName);
 
         return  restaurants
                 .stream()
@@ -62,15 +51,18 @@ public class FoodBrowsingService {
                 .collect(Collectors.toList());
     }
 
-    public List<FoodDTO> getRestaurantMenu(String restaurantName) throws RestaurantNotFoundException {
+    public List<FoodDTO> getRestaurantMenu(String restaurantName,
+                                           List<String> filterFoodCategoryNames) throws RestaurantNotFoundException {
         Optional<Restaurant> optRestaurant = restaurantRepository.findByName(restaurantName);
 
         if (optRestaurant.isEmpty()) {
             throw new RestaurantNotFoundException();
         }
 
-        return optRestaurant.get()
-                .getFoods()
+        List<Food> foods = filteringFacadeService.getFilteredFoods(optRestaurant.get(),
+                filterFoodCategoryNames);
+
+        return foods
                 .stream()
                 .map(food -> mapper.map(food, FoodDTO.class))
                 .collect(Collectors.toList());

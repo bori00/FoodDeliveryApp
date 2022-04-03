@@ -7,10 +7,7 @@ import com.example.food_delivery.service.restaurant_management.RestaurantManagem
 import com.example.food_delivery.service.restaurant_management.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -35,7 +32,7 @@ public class RestaurantManagementController {
 
     @GetMapping("/get_my_menu")
     @PreAuthorize("hasAuthority('RESTAURANT_ADMIN')")
-    public List<FoodDTO> getActiveAdminsRestaurantsMenu() throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
-        return restaurantManagementService.getActiveAdminsRestaurantsMenu();
+    public List<FoodDTO> getActiveAdminsRestaurantsMenu(@RequestParam List<String> filterFoodCategoryNames) throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
+        return restaurantManagementService.getActiveAdminsRestaurantsMenu(filterFoodCategoryNames);
     }
 }

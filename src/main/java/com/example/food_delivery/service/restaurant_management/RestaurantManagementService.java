@@ -9,6 +9,7 @@ import com.example.food_delivery.repository.FoodRepository;
 import com.example.food_delivery.repository.RestaurantRepository;
 import com.example.food_delivery.service.authentication.AuthenticationService;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
+import com.example.food_delivery.service.filtering.FilteringFacadeService;
 import com.example.food_delivery.service.restaurant_management.exceptions.*;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -43,6 +44,9 @@ public class RestaurantManagementService {
     @Autowired
     private ModelMapper mapper;
 
+    @Autowired
+    private FilteringFacadeService filteringFacadeService;
+
     public void createRestaurant(RestaurantDTO restaurantDTO) throws AccessRestrictedToAdminsException, MissingAvailableDeliveryZoneException, DuplicateRestaurantNameException, MoreThanOneRestaurantPerAdminException {
         // get active user
         RestaurantAdmin admin = authenticationService.getCurrentAdmin();
@@ -54,7 +58,7 @@ public class RestaurantManagementService {
 
         // find available delivery zones, ensure that there's at least one of them
         Set<DeliveryZone> deliveryZones =
-                deliveryZoneRepository.findAllByNameIn(restaurantDTO.getAvailableDeliveryZones());
+                deliveryZoneRepository.findAllByNameIn(restaurantDTO.getAvailableDeliveryZoneNames());
         if (deliveryZones.isEmpty()) {
             throw new MissingAvailableDeliveryZoneException();
         }
@@ -103,7 +107,7 @@ public class RestaurantManagementService {
         foodRepository.save(food);
     }
 
-    public List<FoodDTO> getActiveAdminsRestaurantsMenu() throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
+    public List<FoodDTO> getActiveAdminsRestaurantsMenu(List<String> filterFoodCategoryNames) throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
         // get active user
         RestaurantAdmin admin = authenticationService.getCurrentAdmin();
 
@@ -113,6 +117,9 @@ public class RestaurantManagementService {
             throw new NoRestaurantSetupForAdminException();
         }
 
-        return restaurant.getFoods().stream().map(food -> mapper.map(food, FoodDTO.class)).collect(Collectors.toList());
+        List<Food> foods = filteringFacadeService.getFilteredFoods(restaurant,
+                filterFoodCategoryNames);
+
+        return foods.stream().map(food -> mapper.map(food, FoodDTO.class)).collect(Collectors.toList());
     }
 }
