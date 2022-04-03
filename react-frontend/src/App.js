@@ -86,13 +86,6 @@ class App extends Component {
                                 </Link>
                             </li>
                         )}
-                        {showCustomerBoard && (
-                            <li className="nav-item">
-                                <Link to={"/menu/Rest6"} className="nav-link">
-                                    Rest6 Menu
-                                </Link>
-                            </li>
-                        )}
                     </div>
                     {currentUser ? (
                         <div className="navbar-nav ml-auto">
@@ -122,8 +115,6 @@ class App extends Component {
                             <Route exact path="/home" component={Home} />
                             <Route exact path="/login"  component={Login} />
                             <Route exact path="/register"  component={Register} />
-                            <Route path="/customer"  component={BoardCustomer} />
-                            <Route path="/admin"  component={BoardAdmin} />
                             <Route path="/setup-restaurant"  component={RestaurantSetup} />
                             <Route path="/add-food"  component={AddFood} />
                             <Route exact path="/menu/:restaurant"  component={Menu} />

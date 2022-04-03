@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import { Card } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
+import {Link} from "react-router-dom";
 
 
 export default class RestaurantItem extends Component {
@@ -11,6 +12,8 @@ export default class RestaurantItem extends Component {
 
         const restaurant = this.props.restaurant;
 
+        const menuLink = "/menu/" + restaurant.name;
+
         return (
             <Card className="fitToParent menuItemCard">
                 <Card.Body>
@@ -19,6 +22,9 @@ export default class RestaurantItem extends Component {
                     <Card.Text>
                         Delivers to: {restaurant.availableDeliveryZoneNames.join(", ")}
                     </Card.Text>
+                    <Button variant="link" href={menuLink}>
+                        View Menu
+                    </Button>
                 </Card.Body>
             </Card>
         );
