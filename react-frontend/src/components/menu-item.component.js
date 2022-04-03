@@ -25,7 +25,8 @@ export default class MenuItem extends Component {
                 if (response.ok) {
                     response.json().then(responseQuantity => {
                         this.setState({
-                            quantity: Number(responseQuantity)
+                            quantity: Number(responseQuantity),
+                            fetchedQuantity: Number(responseQuantity)
                         });
                         console.log(this.props.foodItem.name, ": ", responseQuantity)
                     });

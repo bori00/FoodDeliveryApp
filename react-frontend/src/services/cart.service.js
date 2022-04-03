@@ -31,5 +31,26 @@ class CartService {
             headers: authHeader(),
         })
     }
+
+    getCustomersCartContent() {
+        var url = new URL(API_URL + "get_my_cart")
+
+        return fetch(url, {
+            method: 'GET',
+            headers: authHeader(),
+        })
+    }
+
+    placeOrder() {
+
+        return fetch(API_URL + "place_order", {
+            method: 'POST',
+            headers: Object.assign({}, {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                "charset": "UTF-8"
+            }, authHeader())
+        })
+    }
 }
 export default new CartService();

@@ -22,7 +22,7 @@ public class CustomerCartDTO {
     private String restaurantName;
 
     @JsonSerialize(keyUsing = FoodDTOSerializer.class)
-    private Map<FoodDTO, Integer> orderedItemsToQuantity;
+    private Map<FoodDTO, Integer> selectedItemsToQuantity;
 
     public static class FoodDTOSerializer extends JsonSerializer<FoodDTO> {
 

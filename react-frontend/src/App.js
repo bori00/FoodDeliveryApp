@@ -11,6 +11,7 @@ import RestaurantSetup from "./components/restaurant-setup.component";
 import AddFood from "./components/add-food.component";
 import Menu from "./components/menu.component"
 import RestaurantList from "./components/restaurant-list.component";
+import Cart from "./components/cart.component"
 
 class App extends Component {
     constructor(props) {
@@ -84,6 +85,13 @@ class App extends Component {
                                 </Link>
                             </li>
                         )}
+                        {showCustomerBoard && (
+                            <li className="nav-item">
+                                <Link to={"/cart"} className="nav-link">
+                                    Cart
+                                </Link>
+                            </li>
+                        )}
                     </div>
                     {currentUser ? (
                         <div className="navbar-nav ml-auto">
@@ -117,6 +125,7 @@ class App extends Component {
                             <Route path="/add-food"  component={AddFood} />
                             <Route exact path="/menu/:restaurant"  component={Menu} />
                             <Route exact path="/restaurants"  component={RestaurantList} />
+                            <Route exact path="/cart"  component={Cart} />
                         </Switch>
                 </div>
             </div>
