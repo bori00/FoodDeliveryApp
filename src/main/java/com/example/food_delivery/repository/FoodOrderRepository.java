@@ -11,5 +11,5 @@ import java.util.stream.Collectors;
 
 public interface FoodOrderRepository extends JpaRepository<FoodOrder, Long> {
 
-    List<FoodOrder> findAllByOrderStatusInAndRestaurant(Collection<FoodOrder.OrderStatus> statuses, Restaurant restaurant);
+    List<FoodOrder> findAllByOrderStatusInAndRestaurantOrderByDateTimeDesc(Collection<FoodOrder.OrderStatus> statuses, Restaurant restaurant);
 }

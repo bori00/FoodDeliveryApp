@@ -3,6 +3,7 @@ import { Card, Button } from 'react-bootstrap';
 import Input from "react-validation/build/input";
 import Form from "react-validation/build/form";
 import CartService from "../services/cart.service"
+import OrderService from "../services/order.service"
 import CartItem from "./cart-item.component";
 
 
@@ -24,7 +25,6 @@ export default class Cart extends Component {
             .then(response => {
                 if (response.ok) {
                     response.json().then( responseCart => {
-                        console.log(responseCart)
                         if (responseCart.restaurantName != null) {
                             this.setState({
                                 restaurantName: responseCart.restaurantName,
@@ -59,7 +59,7 @@ export default class Cart extends Component {
     }
 
     handlePlaceOrder() {
-        CartService.placeOrder()
+        OrderService.placeOrder()
             .then(response => {
                 if (response.ok) {
                     this.onLoadCartContent();
@@ -83,9 +83,6 @@ export default class Cart extends Component {
     }
 
     render() {
-
-        console.log("State: ", this.state)
-
         const {loading, message, restaurantName, itemsToQuantity, totalPrice, emptyCart} = this.state;
 
         let itemComponentList;

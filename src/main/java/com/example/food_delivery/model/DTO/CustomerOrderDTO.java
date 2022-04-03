@@ -14,6 +14,7 @@ import lombok.Setter;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Getter
@@ -24,6 +25,8 @@ public class CustomerOrderDTO {
     private String restaurantName;
 
     private String status;
+
+    private LocalDateTime dateTime;
 
     @JsonSerialize(keyUsing = FoodDTOSerializer.class)
     private Map<FoodDTO, Integer> orderedItemsToQuantity;

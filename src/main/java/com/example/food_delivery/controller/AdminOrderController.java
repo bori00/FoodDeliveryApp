@@ -26,16 +26,10 @@ public class AdminOrderController {
     @Autowired
     private AdminOrderService adminOrderService;
 
-    @GetMapping("/see_restaurants_filtered_orders")
+    @GetMapping("/see_restaurants_sorted_filtered_orders")
     @PreAuthorize("hasAuthority('RESTAURANT_ADMIN')")
     public List<AdminOrderDTO> getFilteredRestaurantsOrders(@RequestBody List<FoodOrder.OrderStatus> statuses) throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
-        return adminOrderService.getFilteredRestaurantsOrders(statuses);
-    }
-
-    @GetMapping("/see_restaurants_orders")
-    @PreAuthorize("hasAuthority('RESTAURANT_ADMIN')")
-    public List<AdminOrderDTO> getRestaurantsOrders() throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
-        return adminOrderService.getFilteredRestaurantsOrders(Arrays.asList(FoodOrder.OrderStatus.values()));
+        return adminOrderService.getFilteredSortedRestaurantsOrders(statuses);
     }
 
     @PostMapping("/accept_order")

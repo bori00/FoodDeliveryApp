@@ -12,6 +12,7 @@ import AddFood from "./components/add-food.component";
 import Menu from "./components/menu.component"
 import RestaurantList from "./components/restaurant-list.component";
 import Cart from "./components/cart.component"
+import CustomerOrderHistory from "./components/customer-order-history";
 
 class App extends Component {
     constructor(props) {
@@ -92,6 +93,13 @@ class App extends Component {
                                 </Link>
                             </li>
                         )}
+                        {showCustomerBoard && (
+                            <li className="nav-item">
+                                <Link to={"/customer-order-history"} className="nav-link">
+                                    Order History
+                                </Link>
+                            </li>
+                        )}
                     </div>
                     {currentUser ? (
                         <div className="navbar-nav ml-auto">
@@ -126,6 +134,7 @@ class App extends Component {
                             <Route exact path="/menu/:restaurant"  component={Menu} />
                             <Route exact path="/restaurants"  component={RestaurantList} />
                             <Route exact path="/cart"  component={Cart} />
+                            <Route exact path="/customer-order-history"  component={CustomerOrderHistory} />
                         </Switch>
                 </div>
             </div>

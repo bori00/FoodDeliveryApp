@@ -17,7 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.AbstractMap;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -62,7 +65,8 @@ public class CustomerOrdersService {
         Restaurant restaurant = itemRestaurants.iterator().next();
 
         // build the Order
-        FoodOrder foodOrder = new FoodOrder(FoodOrder.OrderStatus.PENDING, customer, restaurant);
+        FoodOrder foodOrder = new FoodOrder(FoodOrder.OrderStatus.PENDING, customer, restaurant,
+                LocalDateTime.now());
 
         // build the set of OrderItems
         Set<OrderItem> orderItems = cartItems.stream()
@@ -86,9 +90,11 @@ public class CustomerOrdersService {
         return customer
                 .getOrders()
                 .stream()
+                .sorted(Comparator.comparing(FoodOrder::getDateTime).reversed())
                 .map(order -> new CustomerOrderDTO(
                         order.getRestaurant().getName(),
                         order.getOrderStatus().toString(),
+                        order.getDateTime(),
                         order.getOrderItems().stream()
                                 .map(orderItem ->
                                         new AbstractMap.SimpleEntry<>(

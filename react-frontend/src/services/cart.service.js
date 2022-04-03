@@ -40,17 +40,5 @@ class CartService {
             headers: authHeader(),
         })
     }
-
-    placeOrder() {
-
-        return fetch(API_URL + "place_order", {
-            method: 'POST',
-            headers: Object.assign({}, {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                "charset": "UTF-8"
-            }, authHeader())
-        })
-    }
 }
 export default new CartService();

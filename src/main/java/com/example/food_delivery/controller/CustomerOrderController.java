@@ -29,7 +29,7 @@ public class CustomerOrderController {
         customerOrdersService.placeOrder();
     }
 
-    @GetMapping("/see_my_order_history")
+    @GetMapping("/get_my_order_history")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public List<CustomerOrderDTO> getMyOrderHistory() throws AccessRestrictedToCustomersException {
         return customerOrdersService.getActiveCustomersOrderHistory();
