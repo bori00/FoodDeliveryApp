@@ -1,5 +1,7 @@
 package com.example.food_delivery.model.DTO;
 
+import com.example.food_delivery.model.Customer;
+import com.example.food_delivery.model.RestaurantAdmin;
 import com.example.food_delivery.model.User;
 import lombok.*;
 
@@ -25,5 +27,23 @@ public class UserDTO {
     private String password;
 
     @NotNull(message = "The user must have ADMIN or CUSTOMER type")
-    private User.UserType userType;
+    private UserType userType;
+
+    public enum UserType {
+        ADMIN{
+            @Override
+            public User buildUser(UserDTO userDTO) {
+                return new RestaurantAdmin(userDTO.getName(), userDTO.getPassword());
+            }
+
+        },
+        CUSTOMER {
+            @Override
+            public User buildUser(UserDTO userDTO) {
+                return new Customer(userDTO.getName(), userDTO.getPassword());
+            }
+        };
+
+        public abstract User buildUser(UserDTO userDTO);
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.food_delivery.model;
 
+import com.example.food_delivery.model.DTO.UserDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,10 +27,5 @@ public abstract class User {
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
-    }
-
-    public enum UserType {
-        ADMIN,
-        CUSTOMER
     }
 }
