@@ -22,6 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Service that implements functionalities related to managing a restaurant's orders, from the
+ * admin's perspectives.
+ */
 @Service
 public class AdminOrderService {
 
@@ -34,6 +38,16 @@ public class AdminOrderService {
     @Autowired
     private ModelMapper mapper;
 
+    /**
+     * Returns the restaurant orders from the currently logged-in admin's restaurant, which have
+     * any of the specified statuses, sorted reversely by their creation date.
+     * @param statuses is the collection of allowed order statuses. If empty, any status is
+     *                 considered allowed.
+     * @return the list of orders, in AdminOrderDTO format, fulfilling the above specified criteria.
+     * @throws AccessRestrictedToAdminsException if the currently logged in user is not an admin.
+     * @throws NoRestaurantSetupForAdminException if the currently logged in user does not have a
+     * restaurant.
+     */
     public List<AdminOrderDTO> getFilteredSortedRestaurantsOrders(Collection<FoodOrder.OrderStatus> statuses) throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
         // get active user
         RestaurantAdmin admin = authenticationService.getCurrentAdmin();
@@ -63,6 +77,14 @@ public class AdminOrderService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Updates the status of the order with the given id, to newStatus.
+     * @param orderId is the identifier of the order whose state is to be updated.
+     * @param newStatus is the status to be set for the order.
+     * @throws AccessRestrictedToAdminsException if the currently logged in user is not an admin.
+     * @throws RequestedOrderNotFoundException if no order with the given id is found.
+     * @throws InvalidOrderStatusChangeException if the requested status transition is not allowed.
+     */
     public void updateOrderState(Long orderId, FoodOrder.OrderStatus newStatus) throws AccessRestrictedToAdminsException, RequestedOrderNotFoundException, InvalidOrderStatusChangeException {
         // get active user
         RestaurantAdmin admin = authenticationService.getCurrentAdmin();

@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-
+/**
+ * Service that implements functionalities related to user authentication: registration.
+ */
 @Service
 public class LoginRegistrationService {
 
@@ -25,6 +27,11 @@ public class LoginRegistrationService {
     @Autowired
     private AuthenticationService authenticationService;
 
+    /**
+     * Registers a user with the data specified in the userDTO.
+     * @param userDTO holds the registration data.
+     * @throws DuplicateUsernameException if the requested username is already taken.
+     */
     public void register(UserDTO userDTO) throws DuplicateUsernameException {
         System.out.println(userDTO);
 
@@ -39,7 +46,7 @@ public class LoginRegistrationService {
         userRepository.save(user);
     }
 
-    public boolean hasRestaurant(String userName) {
+    public boolean hasRestaurant() {
         try {
             RestaurantAdmin admin = authenticationService.getCurrentAdmin();
             return admin.getRestaurant() != null;

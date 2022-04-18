@@ -16,6 +16,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Service that implements functionalities related to user authentication: it provides data about
+ * the currently logged in user.
+ */
 @Service
 public class AuthenticationService {
 
@@ -28,6 +32,11 @@ public class AuthenticationService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    /**
+     * Returns the currently logged in user.
+     * @return the currently logged in user.
+     * @throws AuthenticationRequiredException if no authenticated user exists.
+     */
     public User getCurrentUser() throws AuthenticationRequiredException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optUser =
@@ -38,6 +47,12 @@ public class AuthenticationService {
         return optUser.get();
     }
 
+    /**
+     * Returns the currently logged in admin.
+     * @return the currently logged in admin.
+     * @throws AccessRestrictedToAdminsException, if no authenticated user exists, or the
+     * logged-in user is not an admin.
+     */
     public RestaurantAdmin getCurrentAdmin() throws AccessRestrictedToAdminsException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<RestaurantAdmin> optUser =
@@ -48,6 +63,12 @@ public class AuthenticationService {
         return optUser.get();
     }
 
+    /**
+     * Returns the currently logged in customer.
+     * @return the currently logged in customer.
+     * @throws AccessRestrictedToCustomersException, if no authenticated user exists, or the
+     * logged-in user is not a customer.
+     */
     public Customer getCurrentCustomer() throws AccessRestrictedToCustomersException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<Customer> optUser =
