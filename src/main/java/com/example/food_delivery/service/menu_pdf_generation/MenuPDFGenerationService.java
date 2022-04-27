@@ -1,19 +1,15 @@
 package com.example.food_delivery.service.menu_pdf_generation;
 
 import com.example.food_delivery.model.DTO.FoodDTO;
-import com.example.food_delivery.model.Food;
 import com.example.food_delivery.model.FoodCategory;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
@@ -31,32 +27,25 @@ public class MenuPDFGenerationService {
 
     private static final String LOGO_PATH = "src/main/resources/img/menu.png";
 
-   // private static final Logger LOGGER = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
 
-    private static final String FILE_PATH_FORMAT = "Menus/Menu-%s.pdf";
-    //private static final String LOGO_PATH = "src/main/resources/img/logo.png";
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(
-            "yyyy_MM_dd-HH_mm_ss");
-
-    public void createMenuPDF(String restaurantName,
-                              Map<FoodCategory, List<FoodDTO>> categoriesToFoodList)  {
+    public ByteArrayInputStream createMenuPDF(String restaurantName,
+                                              Map<String, List<FoodDTO>> categoriesToFoodList)  {
         try {
             Document document = new Document();
             ByteArrayOutputStream out = new ByteArrayOutputStream();
+            PdfWriter.getInstance(document, out);
 
-            PdfWriter.getInstance(document, new FileOutputStream(String.format(FILE_PATH_FORMAT,
-                    LocalDateTime.now().format(DATE_TIME_FORMATTER))));
             document.open();
             addMetaData(document, restaurantName);
             addContent(document, restaurantName, categoriesToFoodList);
             document.close();
+
+            return new ByteArrayInputStream(out.toByteArray());
         } catch (DocumentException | IOException e) {
-           // LOGGER.error(Throwables.getStackTraceAsString(e));
             e.printStackTrace();
         }
+        return null;
     }
-
-
 
     private void addMetaData(Document document, String restaurantName) {
         document.addTitle(String.format("%s's Menu", restaurantName));
@@ -65,12 +54,13 @@ public class MenuPDFGenerationService {
 
     private void addContent(Document document,
                             String restaurantName,
-                            Map<FoodCategory, List<FoodDTO>> categoriesToFoodList)
+                            Map<String, List<FoodDTO>> categoriesToFoodList)
             throws DocumentException, IOException {
         addPrefaceParagraph(document, restaurantName);
 
-        for (FoodCategory foodCategory : categoriesToFoodList.keySet()) {
-            addFoodCategorySection(document, foodCategory, categoriesToFoodList.get(foodCategory));
+        for (String foodCategoryName : categoriesToFoodList.keySet()) {
+            addFoodCategorySection(document, foodCategoryName,
+                    categoriesToFoodList.get(foodCategoryName));
         }
     }
 
@@ -89,7 +79,7 @@ public class MenuPDFGenerationService {
     }
 
     private void addFoodCategorySection(Document document,
-                                        FoodCategory foodCategory,
+                                        String foodCategoryName,
                                         List<FoodDTO> foodList) throws DocumentException {
         document.newPage();
 
@@ -102,7 +92,7 @@ public class MenuPDFGenerationService {
 
         addEmptyLine(section, 1);
 
-        Paragraph titlePara = new Paragraph(foodCategory.getName() + "s", SUBTITLE_FONT);
+        Paragraph titlePara = new Paragraph(foodCategoryName + "s", SUBTITLE_FONT);
         titlePara.setAlignment(Element.ALIGN_CENTER);
         section.add(titlePara);
 
