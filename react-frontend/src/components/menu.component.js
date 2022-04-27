@@ -119,18 +119,20 @@ export default class Menu extends Component {
                         className="img-card scale-down"
                     />
                     {isAdmin && (
-                        <h1>My Menu</h1>
+                        <Fragment>
+                            <h1>My Menu</h1>
+
+                            <br/>
+
+                            <button onClick={e => this.downloadMenu(e)}
+                                className="btn btn-secondary btn-block">
+                                Download in PDF
+                            </button>
+                        </Fragment>
                     )}
                     {!isAdmin && (
                         <h1>{restaurantName}'s Menu</h1>
                     )}
-
-                    <br/>
-
-                    <button onClick={e => this.downloadMenu(e)}
-                            className="btn btn-secondary btn-block">
-                        Download in PDF
-                    </button>
 
                     <hr/>
 
