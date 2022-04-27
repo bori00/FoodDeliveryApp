@@ -123,4 +123,18 @@ public class RestaurantManagementService {
 
         return foods.stream().map(food -> mapper.map(food, FoodDTO.class)).collect(Collectors.toList());
     }
+
+    public String getActiveAdminsRestaurantsName() throws AccessRestrictedToAdminsException,
+            NoRestaurantSetupForAdminException {
+        // get active user
+        RestaurantAdmin admin = authenticationService.getCurrentAdmin();
+
+        // get the restaurant of the active user
+        Restaurant restaurant = admin.getRestaurant();
+        if (restaurant == null) {
+            throw new NoRestaurantSetupForAdminException();
+        }
+
+        return restaurant.getName();
+    }
 }

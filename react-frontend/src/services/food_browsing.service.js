@@ -1,11 +1,11 @@
 import authHeader from "./auth-header";
+import download from "downloadjs"
 
 const API_URL = "http://localhost:8080/food-delivery/";
 
+
 class FoodBrowsingService {
     getAdminsMenu(selectedFoodCategories) {
-
-        // todo: filter by categories
 
         var url = new URL(API_URL + "get_my_menu")
 
@@ -23,6 +23,20 @@ class FoodBrowsingService {
         })
     }
 
+    getAdminsMenuInPDF(restauarn_name) {
+        var url = new URL(API_URL + "get_my_menu_in_pdf")
+
+        return fetch(url, {
+            method: 'GET',
+            headers: Object.assign({}, {
+                'Content-Type': 'application/json',
+                "charset": "UTF-8"
+            }, authHeader())
+        }).then(res => res.blob())
+            .then( blob => {
+                download(blob, "My Menu.pdf");
+            });
+    }
 
     getRestaurantsMenuForCustomer(restaurantName, selectedFoodCategories) {
 
