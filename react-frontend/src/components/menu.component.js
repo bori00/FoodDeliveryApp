@@ -66,9 +66,14 @@ export default class Menu extends Component {
                     loading: true,
                     menu_items: []
                 });
-                console.log("Error loading menu")
+                console.log("Error loading menu");
             }
         })
+    }
+
+    downloadMenu(e) {
+        e.preventDefault();
+        MenuService.getAdminsMenuInPDF()
     }
 
     getDictOfFoodCategory(foodName) {
@@ -119,6 +124,13 @@ export default class Menu extends Component {
                     {!isAdmin && (
                         <h1>{restaurantName}'s Menu</h1>
                     )}
+
+                    <br/>
+
+                    <button onClick={e => this.downloadMenu(e)}
+                            className="btn btn-secondary btn-block">
+                        Download in PDF
+                    </button>
 
                     <hr/>
 
