@@ -10,10 +10,12 @@ export default class Register extends Component {
         this.handleRegister = this.handleRegister.bind(this);
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
+        this.onChangeEmailAddress = this.onChangeEmailAddress.bind(this);
         this.onChangeAccountType = this.onChangeAccountType.bind(this);
         this.state = {
             username: "",
             password: "",
+            emailAddress: "",
             admin: false,
             successful: false,
             message: ""
@@ -30,6 +32,12 @@ export default class Register extends Component {
     onChangePassword(e) {
         this.setState({
             password: e.target.value
+        });
+    }
+
+    onChangeEmailAddress(e) {
+        this.setState({
+            emailAddress: e.target.value
         });
     }
 
@@ -52,6 +60,7 @@ export default class Register extends Component {
             AuthService.register(
                 this.state.username,
                 this.state.password,
+                this.state.emailAddress,
                 this.state.admin
             ).then(response => {
                     if (response.ok) {
@@ -109,6 +118,17 @@ export default class Register extends Component {
                                         value={this.state.password}
                                         onChange={this.onChangePassword}
                                         validations={[required, vpassword]}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="email">Email Address</label>
+                                    <Input
+                                        type="email"
+                                        className="form-control"
+                                        name="email"
+                                        value={this.state.emailAddress}
+                                        onChange={this.onChangeEmailAddress}
+                                        validations={[required, vemailaddress]}
                                     />
                                 </div>
                                 <div className="form-group">
@@ -171,11 +191,30 @@ const vusername = value => {
         );
     }
 };
+
 const vpassword = value => {
     if (value.length < 1 || value.length > 100) {
         return (
             <div className="alert alert-danger" role="alert">
                 The password must be between 3 and 100 characters.
+            </div>
+        );
+    }
+};
+
+const vemailaddress = value => {
+    if (value.length < 1 || value.length > 100) {
+        return (
+            <div className="alert alert-danger" role="alert">
+                The email address must be between 3 and 100 characters.
+            </div>
+        );
+    }
+    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)))
+    {
+        return (
+            <div className="alert alert-danger" role="alert">
+                Please provide a valide email address.
             </div>
         );
     }
