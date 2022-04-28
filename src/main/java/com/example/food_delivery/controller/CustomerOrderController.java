@@ -40,7 +40,7 @@ public class CustomerOrderController {
 
         String foodOrderEmailReport = emailTextGeneratorService.generateOrderEmailReport(order);
 
-        mailingService.sendSimpleMessage("fazakasbori@gmail.com", "New Order",
+        mailingService.sendSimpleMessage(order.getRestaurant().getAdmin().getEmailAddress(), "New Order",
                 foodOrderEmailReport);
     }
 
