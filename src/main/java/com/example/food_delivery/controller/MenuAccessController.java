@@ -4,6 +4,7 @@ import com.example.food_delivery.model.DTO.FoodDTO;
 import com.example.food_delivery.model.Food;
 import com.example.food_delivery.model.FoodCategory;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
+import com.example.food_delivery.service.mailing_service.MailingService;
 import com.example.food_delivery.service.menu_pdf_generation.MenuPDFGenerationService;
 import com.example.food_delivery.service.restaurant_management.RestaurantManagementService;
 import com.example.food_delivery.service.restaurant_management.exceptions.NoRestaurantSetupForAdminException;

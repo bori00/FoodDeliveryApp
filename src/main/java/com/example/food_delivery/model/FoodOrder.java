@@ -49,6 +49,10 @@ public class FoodOrder {
         this.orderItems = new HashSet<>();
     }
 
+    public double getTotalPrice() {
+        return orderItems.stream().mapToDouble(orderItem -> orderItem.getFood().getPrice() * orderItem.getQuantity()).sum();
+    }
+
     public enum OrderStatus {
         PENDING("P"),
         ACCEPTED("A"),
