@@ -41,7 +41,8 @@ public class CustomerOrdersService {
     private ModelMapper mapper;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void placeOrder() throws EmptyOrderException, CartItemsFromMultipleRestaurantsException, AccessRestrictedToCustomersException {
+    public FoodOrder placeOrder() throws EmptyOrderException, CartItemsFromMultipleRestaurantsException,
+            AccessRestrictedToCustomersException {
         // find the user who places the order
         Customer customer = authenticationService.getCurrentCustomer();
 
@@ -81,6 +82,8 @@ public class CustomerOrdersService {
 
         // delete cartItems
         cartItemRepository.deleteAlllByCustomer(customer);
+
+        return foodOrder;
     }
 
     public List<CustomerOrderDTO> getActiveCustomersOrderHistory() throws AccessRestrictedToCustomersException {

@@ -17,7 +17,7 @@ public class RestaurantAdmin extends User {
     @OneToOne(mappedBy = "admin")
     private Restaurant restaurant;
 
-    public RestaurantAdmin(String userName, String password) {
-        super(userName, password);
+    public RestaurantAdmin(String userName, String password, String emailAddress) {
+        super(userName, password, emailAddress);
     }
 }

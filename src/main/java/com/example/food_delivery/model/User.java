@@ -24,8 +24,12 @@ public abstract class User {
     @Column(nullable = false, length = 100)
     private String password;
 
-    public User(String userName, String password) {
+    @Column(nullable = false, length = 100)
+    private String emailAddress;
+
+    public User(String userName, String password, String emailAddress) {
         this.userName = userName;
         this.password = password;
+        this.emailAddress = emailAddress;
     }
 }

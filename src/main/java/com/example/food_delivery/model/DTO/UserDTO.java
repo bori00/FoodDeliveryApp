@@ -23,24 +23,29 @@ public class UserDTO {
 
     @NotBlank(message = "The password cannot be blank.")
     @Size(min = 3, max = 100, message = "The password should have a length between 3 " +
-            "and 100")
+            "and 100.")
     private String password;
 
-    @NotNull(message = "The user must have ADMIN or CUSTOMER type")
+    @NotBlank(message = "The email address cannot be blank.")
+    @Size(min = 3, max = 100, message = "The email address should have a length between 3 " +
+            "and 100.")
+    private String emailAddress;
+
+    @NotNull(message = "The user must have ADMIN or CUSTOMER type.")
     private UserType userType;
 
     public enum UserType {
         ADMIN{
             @Override
             public User buildUser(UserDTO userDTO) {
-                return new RestaurantAdmin(userDTO.getName(), userDTO.getPassword());
+                return new RestaurantAdmin(userDTO.getName(), userDTO.getPassword(), userDTO.getEmailAddress());
             }
 
         },
         CUSTOMER {
             @Override
             public User buildUser(UserDTO userDTO) {
-                return new Customer(userDTO.getName(), userDTO.getPassword());
+                return new Customer(userDTO.getName(), userDTO.getPassword(), userDTO.getEmailAddress());
             }
         };
 
