@@ -6,21 +6,17 @@ import com.example.food_delivery.model.DTO.FoodDTO;
 import com.example.food_delivery.repository.CartItemRepository;
 import com.example.food_delivery.repository.FoodOrderRepository;
 import com.example.food_delivery.service.authentication.AuthenticationService;
-import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToCustomersException;
-import com.example.food_delivery.service.cart.CartService;
 import com.example.food_delivery.service.cart.exceptions.CartItemsFromMultipleRestaurantsException;
 import com.example.food_delivery.service.customer_order_management.exceptions.EmptyOrderException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.AbstractMap;
 import java.util.Comparator;
@@ -105,7 +101,7 @@ public class CustomerOrdersService {
         logger.info(String.format("UPDATE - placed new order nr %d\n", savedFoodOrder.getId()));
 
         // delete cartItems
-        cartItemRepository.deleteAlllByCustomer(customer);
+        cartItemRepository.deleteAllByCustomer(customer);
 
         logger.info(String.format("UPDATE - set the cart of user %s to empty",
                 customer.getUserName()));

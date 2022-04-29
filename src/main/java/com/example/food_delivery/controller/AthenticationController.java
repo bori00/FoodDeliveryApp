@@ -6,6 +6,8 @@ import com.example.food_delivery.service.authentication.LoginRegistrationService
 import com.example.food_delivery.service.authentication.UserDetailsServiceImpl;
 import com.example.food_delivery.service.authentication.exceptions.DuplicateUsernameException;
 import com.example.food_delivery.service.authentication.jwt.JwtUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,9 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ *
+ */
 @RestController
 public class AthenticationController {
 
@@ -35,9 +40,13 @@ public class AthenticationController {
     @Autowired
     JwtUtils jwtUtils;
 
+    private static final Logger logger = LoggerFactory.getLogger(AdminOrderController.class);
+
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.OK)
     void register(@Valid @RequestBody UserDTO userDTO) throws DuplicateUsernameException {
+        logger.info(String.format("REQUEST - /register, for username %s",
+                userDTO.getName()));
         loginRegistrationService.register(userDTO);
     }
 
@@ -45,6 +54,8 @@ public class AthenticationController {
     @ResponseStatus(HttpStatus.OK)
     /** Returns RESTAURANT_ADMIN or CUSTOMER as a string. */
     public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
+        logger.info(String.format("REQUEST - /login, for username %s",
+                userDTO.getName()));
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         userDTO.getName(),

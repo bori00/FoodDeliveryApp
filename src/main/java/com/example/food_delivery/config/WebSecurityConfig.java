@@ -20,11 +20,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.sql.DataSource;
 
+/**
+ * Configuration class for Spring Security.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
-        // securedEnabled = true,
-        // jsr250Enabled = true,
          prePostEnabled = true
         )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -44,7 +45,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
 
-
+    /**
+     * Restricts the access to the requests supported by the application.
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
@@ -61,6 +64,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new UserDetailsServiceImpl();
     }
 
+    /**
+     * @return the encoder that should be applied before saving a password in a database.
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

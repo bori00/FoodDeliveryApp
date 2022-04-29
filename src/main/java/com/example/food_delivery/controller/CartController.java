@@ -8,6 +8,8 @@ import com.example.food_delivery.service.cart.CartService;
 import com.example.food_delivery.service.cart.exceptions.CartItemsFromMultipleRestaurantsException;
 import com.example.food_delivery.service.cart.exceptions.FoodNotFoundException;
 import com.example.food_delivery.service.food_browsing.exceptions.RestaurantNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,15 +23,21 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
+    private static final Logger logger = LoggerFactory.getLogger(CartController.class);
+
     @PostMapping("/add_item_to_cart")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public void addItemToCart(@Valid @RequestBody CartItemDTO cartItemDTO) throws CartItemsFromMultipleRestaurantsException, FoodNotFoundException, RestaurantNotFoundException, AccessRestrictedToCustomersException {
+        logger.info(String.format("REQUEST - /add_item_to_cart, for cart item %s and" +
+                        " quantity %d",
+                cartItemDTO.getFoodName(), cartItemDTO.getQuantity()));
         cartService.addItemToCart(cartItemDTO);
     }
 
     @GetMapping("/get_my_cart")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public CustomerCartDTO getMyCart() throws AccessRestrictedToCustomersException {
+        logger.info("REQUEST - /get_my_cart");
         return cartService.getCustomersCartContent();
     }
 
@@ -37,6 +45,7 @@ public class CartController {
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public Integer getCartItemQuantity(@RequestParam String itemName,
                                        @RequestParam String restaurantName) throws AccessRestrictedToCustomersException {
+        logger.info("REQUEST - /get_my_cart");
         return cartService.getCartItemQuantity(itemName, restaurantName);
     }
 

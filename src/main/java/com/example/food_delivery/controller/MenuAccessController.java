@@ -8,6 +8,8 @@ import com.example.food_delivery.service.mailing_service.MailingService;
 import com.example.food_delivery.service.menu_pdf_generation.MenuPDFGenerationService;
 import com.example.food_delivery.service.restaurant_management.RestaurantManagementService;
 import com.example.food_delivery.service.restaurant_management.exceptions.NoRestaurantSetupForAdminException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -34,9 +36,13 @@ public class MenuAccessController {
     @Autowired
     RestaurantManagementService restaurantManagementService;
 
+    private static final Logger logger = LoggerFactory.getLogger(MenuAccessController.class);
+
     @GetMapping(value="/get_my_menu_in_pdf", produces = MediaType.APPLICATION_PDF_VALUE)
     @PreAuthorize("hasAuthority('RESTAURANT_ADMIN')")
     public ResponseEntity<InputStreamResource> getMyRestaurantsMenuInPdf() throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
+        logger.info("REQUEST - /get_my_menu_in_pdf");
+
         List<FoodDTO> foodsList = restaurantManagementService.getActiveAdminsRestaurantsMenu(null);
 
         String restaurantName = restaurantManagementService.getActiveAdminsRestaurantsName();
@@ -46,6 +52,8 @@ public class MenuAccessController {
 
         ByteArrayInputStream menuPDF = menuPDFGenerationService.createMenuPDF(restaurantName,
                 foodMap);
+
+        logger.info("EVENT - generated PDF for menu");
 
         var headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=citiesreport.pdf");

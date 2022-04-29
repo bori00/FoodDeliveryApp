@@ -117,7 +117,7 @@ public class CartService {
             cartItemRepository.save(cartItem);
             logger.info(String.format("UPDATE - added menu item %s in the cart of " +
                             "user %s with quantity %d",
-                    optOldCartItem.get().getFood().getName(), activeUser.getUserName(),
+                    cartItemDTO.getFoodName(), activeUser.getUserName(),
                     cartItemDTO.getQuantity()));
         }
     }
