@@ -9,6 +9,9 @@ import com.example.food_delivery.repository.UserRepository;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToCustomersException;
 import com.example.food_delivery.service.authentication.exceptions.AuthenticationRequiredException;
+import com.example.food_delivery.service.authentication.jwt.JwtUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +35,8 @@ public class AuthenticationService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+
     /**
      * Returns the currently logged in user.
      * @return the currently logged in user.
@@ -42,6 +47,7 @@ public class AuthenticationService {
         Optional<User> optUser =
                 userRepository.findByUserName(((UserDetailsServiceImpl.UserDetailsImpl) auth.getPrincipal()).getUsername());
         if (optUser.isEmpty()) {
+            logger.warn("User tried to access resource without being authenticated");
             throw new AuthenticationRequiredException();
         }
         return optUser.get();
@@ -58,6 +64,7 @@ public class AuthenticationService {
         Optional<RestaurantAdmin> optUser =
                 adminRepository.findByUserName(((UserDetailsServiceImpl.UserDetailsImpl) auth.getPrincipal()).getUsername());
         if (optUser.isEmpty()) {
+            logger.warn("Non-Admin User tried to access Admin-Only resources.");
             throw new AccessRestrictedToAdminsException();
         }
         return optUser.get();
@@ -74,6 +81,7 @@ public class AuthenticationService {
         Optional<Customer> optUser =
                 customerRepository.findByUserName(((UserDetailsServiceImpl.UserDetailsImpl) auth.getPrincipal()).getUsername());
         if (optUser.isEmpty()) {
+            logger.warn("Non-Customer User tried to access Customer-Only resources.");
             throw new AccessRestrictedToCustomersException();
         }
         return optUser.get();

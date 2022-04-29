@@ -1,7 +1,10 @@
 package com.example.food_delivery.service.admin_order_management.order_states;
 
 import com.example.food_delivery.model.FoodOrder;
+import com.example.food_delivery.service.admin_order_management.AdminOrderService;
 import com.example.food_delivery.service.admin_order_management.order_states.exceptions.InvalidOrderStatusChangeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.List;
@@ -10,6 +13,8 @@ import java.util.List;
  * Interface representing a state of an Order.
  */
 public interface IOrderState {
+
+    Logger logger = LoggerFactory.getLogger(IOrderState.class);
 
     /**
      * If the transition from the current state is possible, sets the status of order to
@@ -22,6 +27,8 @@ public interface IOrderState {
         if (getAllowedTransitions().contains(status)) {
             order.setOrderStatus(status);
         } else {
+            logger.warn(String.format("INVALID UPDATE - attemted changing the status of order nr" +
+                    ". %d from %s to %s", order.getId(), order.getOrderStatus(), status));
             throw new InvalidOrderStatusChangeException(getCorrespondingStatus(), status);
         }
     }

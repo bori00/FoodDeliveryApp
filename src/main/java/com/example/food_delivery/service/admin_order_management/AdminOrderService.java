@@ -15,6 +15,8 @@ import com.example.food_delivery.service.authentication.exceptions.AccessRestric
 import com.example.food_delivery.service.restaurant_management.exceptions.MoreThanOneRestaurantPerAdminException;
 import com.example.food_delivery.service.restaurant_management.exceptions.NoRestaurantSetupForAdminException;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,6 +40,8 @@ public class AdminOrderService {
     @Autowired
     private ModelMapper mapper;
 
+    Logger logger = LoggerFactory.getLogger(AdminOrderService.class);
+
     /**
      * Returns the restaurant orders from the currently logged-in admin's restaurant, which have
      * any of the specified statuses, sorted reversely by their creation date.
@@ -54,6 +58,8 @@ public class AdminOrderService {
 
         // verify that the user does have a restaurant
         if (admin.getRestaurant() == null) {
+            logger.warn(String.format("INVALID ACCESS - user %s attempted to get their " +
+                    "restaurant orders, but has no restaurant", admin.getUserName()));
             throw new NoRestaurantSetupForAdminException();
         }
 
@@ -93,18 +99,28 @@ public class AdminOrderService {
         Optional<FoodOrder> optOrder = foodOrderRepository.findById(orderId);
 
         if (optOrder.isEmpty()) {
+            logger.warn(String.format("INVALID REQUEST PARAMS - attempted to update the state of " +
+                    "order nr %d, but the order does not exist", orderId));
             throw new RequestedOrderNotFoundException();
         }
         FoodOrder order = optOrder.get();
 
         // verify that the current user owns the restaurant
         if (!order.getRestaurant().equals(admin.getRestaurant())) {
+            logger.warn(String.format("INVALID ACCESS - user %s attempted to update the state of " +
+                    "order %d, but the order does not belong to their restaurant",
+                    admin.getUserName(), orderId));
             throw new AccessRestrictedToAdminsException();
         }
+
+        FoodOrder.OrderStatus prevStatus = order.getOrderStatus();
 
         OrderStateFactory
                 .createOrderState(order.getOrderStatus())
                 .transitionTo(newStatus, order);
+
+        logger.info(String.format("UPDATE - Status of order %d changed from %s to %s",
+                order.getId(), prevStatus, newStatus));
 
         foodOrderRepository.save(order);
     }
