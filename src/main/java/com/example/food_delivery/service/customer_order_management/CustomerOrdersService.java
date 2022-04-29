@@ -6,18 +6,17 @@ import com.example.food_delivery.model.DTO.FoodDTO;
 import com.example.food_delivery.repository.CartItemRepository;
 import com.example.food_delivery.repository.FoodOrderRepository;
 import com.example.food_delivery.service.authentication.AuthenticationService;
-import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToCustomersException;
 import com.example.food_delivery.service.cart.exceptions.CartItemsFromMultipleRestaurantsException;
 import com.example.food_delivery.service.customer_order_management.exceptions.EmptyOrderException;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.AbstractMap;
 import java.util.Comparator;
@@ -25,6 +24,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Service that handles order-related actions for customers.
+ */
 @Service
 public class CustomerOrdersService {
 
@@ -40,6 +42,17 @@ public class CustomerOrdersService {
     @Autowired
     private ModelMapper mapper;
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomerOrdersService.class);
+
+    /**
+     * Places a new order for the active user, with the content being the current content of
+     * their cart, and sets the cart to empty.
+     * @return the order that was placed.
+     * @throws EmptyOrderException if the user has no items in their cart.
+     * @throws CartItemsFromMultipleRestaurantsException if the user has items from multiple
+     * restaurants in their cart.
+     * @throws AccessRestrictedToCustomersException if the active user is not a customer.
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public FoodOrder placeOrder() throws EmptyOrderException, CartItemsFromMultipleRestaurantsException,
             AccessRestrictedToCustomersException {
@@ -51,6 +64,8 @@ public class CustomerOrdersService {
 
         // ensure the order is non-empty
         if (cartItems.isEmpty()) {
+            logger.warn(String.format("INVALID UPDATE - user %s attempted to place an empty order",
+                    customer.getUserName()));
             throw new EmptyOrderException();
         }
 
@@ -61,6 +76,9 @@ public class CustomerOrdersService {
 
         // ensure all items are from the same restaurant
         if (itemRestaurants.size() > 1) {
+            logger.warn(String.format("INVALID UPDATE - user %s attempted to place an order with " +
+                            "items from multiple different restaurants",
+                    customer.getUserName()));
             throw new CartItemsFromMultipleRestaurantsException();
         }
         Restaurant restaurant = itemRestaurants.iterator().next();
@@ -78,14 +96,24 @@ public class CustomerOrdersService {
         foodOrder.setOrderItems(orderItems);
 
         // save new order
-        foodOrderRepository.save(foodOrder);
+        FoodOrder savedFoodOrder = foodOrderRepository.save(foodOrder);
+
+        logger.info(String.format("UPDATE - placed new order nr %d\n", savedFoodOrder.getId()));
 
         // delete cartItems
-        cartItemRepository.deleteAlllByCustomer(customer);
+        cartItemRepository.deleteAllByCustomer(customer);
 
-        return foodOrder;
+        logger.info(String.format("UPDATE - set the cart of user %s to empty",
+                customer.getUserName()));
+
+        return savedFoodOrder;
     }
 
+    /**
+     * Returns the list of orders in the decreasing order of the dates of the active user.
+     * @return the order list.
+     * @throws AccessRestrictedToCustomersException if the active user is not a customer.
+     */
     public List<CustomerOrderDTO> getActiveCustomersOrderHistory() throws AccessRestrictedToCustomersException {
         // find the user
         Customer customer = authenticationService.getCurrentCustomer();

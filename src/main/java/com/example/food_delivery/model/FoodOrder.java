@@ -12,6 +12,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
+/**
+ * Represents an order placed by a customer to a given restaurant.
+ */
 @Entity
 @Table(name = "food_order")
 @AllArgsConstructor
@@ -34,9 +37,11 @@ public class FoodOrder {
     @JoinColumn(name = "restaurant_id", referencedColumnName = "Id")
     private Restaurant restaurant;
 
+    /** The timestamp at which the order was placed. */
     @Column(nullable = false)
     private LocalDateTime dateTime;
 
+    /** The set of ordered items. */
     @OneToMany(mappedBy = "foodOrder", cascade = CascadeType.ALL)
     private Set<OrderItem> orderItems;
 
@@ -49,10 +54,16 @@ public class FoodOrder {
         this.orderItems = new HashSet<>();
     }
 
+    /**
+     * @return the total price of the ordered items.
+     */
     public double getTotalPrice() {
         return orderItems.stream().mapToDouble(orderItem -> orderItem.getFood().getPrice() * orderItem.getQuantity()).sum();
     }
 
+    /**
+     * Represents the status of an order.
+     */
     public enum OrderStatus {
         PENDING("P"),
         ACCEPTED("A"),
@@ -66,6 +77,9 @@ public class FoodOrder {
             this.code = code;
         }
 
+        /**
+         * @return the code of the status, for persistence in the database.
+         */
         public String getCode() {
             return code;
         }

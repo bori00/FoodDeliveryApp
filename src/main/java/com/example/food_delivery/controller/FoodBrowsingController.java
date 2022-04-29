@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,10 +31,14 @@ public class FoodBrowsingController {
     @Autowired
     private FoodBrowsingService foodBrowsingService;
 
+    private static final Logger logger = LoggerFactory.getLogger(FoodBrowsingController.class);
+
     @GetMapping("/get_filtered_restaurants")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public List<RestaurantDTO> getFilteredRestaurants(@RequestParam(required = false) String nameSubString,
                                                       @RequestParam(required = false) String deliveryZoneName) {
+        logger.info(String.format("REQUEST - /get_filtered_restaurants for nameSubString %s and " +
+                "deliveryZone %s", nameSubString, deliveryZoneName));
         return foodBrowsingService.getFilteredRestaurants(nameSubString, deliveryZoneName);
     }
 
@@ -40,6 +46,8 @@ public class FoodBrowsingController {
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public List<FoodDTO> getRestaurantMenu(@RequestParam String restaurantName,
                                            @RequestParam List<String> filterFoodCategoryNames) throws RestaurantNotFoundException {
+        logger.info(String.format("REQUEST - /get_restaurant_menu for restaurant %s and " +
+                "categories %s", restaurantName, filterFoodCategoryNames));
         return foodBrowsingService.getRestaurantMenu(restaurantName, filterFoodCategoryNames);
     }
 }

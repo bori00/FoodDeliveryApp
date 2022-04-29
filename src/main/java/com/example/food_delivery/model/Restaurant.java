@@ -8,6 +8,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Represents a business registered in the application, that produces and delivers food,
+ */
 @Entity
 @Table(name = "restaurant")
 @AllArgsConstructor
@@ -22,13 +25,16 @@ public class Restaurant {
     @Column(nullable = false, unique = true, length = 50)
     private String name;
 
+    /** The geographical address of the restaurant. */
     @Column(nullable = false, length = 500)
     private String address;
 
+    /** The user who manages the restaurant. */
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "admin_id", referencedColumnName = "id")
     private RestaurantAdmin admin;
 
+    /** The delivery zones to which the restaurant can deliver food. */
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "available_delivery_zones",
@@ -37,9 +43,11 @@ public class Restaurant {
     )
     private Set<DeliveryZone> availableDeliveryZones;
 
+    /** The menu items of the restaurant. */
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private Set<Food> foods;
 
+    /** The set of orders placed by any customer to this restaurant. */
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private Set<FoodOrder> orders;
 

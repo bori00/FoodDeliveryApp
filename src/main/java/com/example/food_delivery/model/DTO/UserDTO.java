@@ -9,7 +9,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+/**
+ * DTO used for client-server communication, representing a newly registered user.
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,6 +36,9 @@ public class UserDTO {
     @NotNull(message = "The user must have ADMIN or CUSTOMER type.")
     private UserType userType;
 
+    /**
+     * Enum for the different user types.
+     */
     public enum UserType {
         ADMIN{
             @Override
@@ -49,6 +54,11 @@ public class UserDTO {
             }
         };
 
+        /**
+         * @param userDTO is the userDTO from which the new user is built.
+         * @return the user built on based on the given userDTO, with the corresponding subtype
+         * of the User class.
+         */
         public abstract User buildUser(UserDTO userDTO);
     }
 }

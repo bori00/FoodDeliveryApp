@@ -26,6 +26,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class responsible for returning the corresponding ExceptionResponse, whenever an unhandled
+ * exception is thrown in the handler method of a controller.
+ */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {

@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Represents an item of an order, referring to a given menu item with a given quantity,
+ */
 @Entity
 @Table(name = "order_item")
 @AllArgsConstructor

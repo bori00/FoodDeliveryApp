@@ -8,6 +8,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Represents a menu item in the menu of a restaurant.
+ */
 @Entity
 @Table(name = "food")
 @AllArgsConstructor
@@ -36,6 +39,7 @@ public class Food {
     @JoinColumn(name = "restaurant_id", referencedColumnName = "Id")
     private Restaurant restaurant;
 
+    /** The set of cart items in the cart of any user, referring to this menu item. */
     @OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
     private Set<CartItem> cartItems;
 

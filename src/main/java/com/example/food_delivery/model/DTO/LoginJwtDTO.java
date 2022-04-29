@@ -5,6 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * DTO used for client-server communication, representing the authentication data of a user,
+ * after login. The accessToken will be used for subsequent access to the secured functionalities
+ * of the application.
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

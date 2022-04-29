@@ -8,6 +8,9 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.validation.constraints.Size;
 
+/**
+ * DTO used for client-server communication, representing a DeliveryZone.
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

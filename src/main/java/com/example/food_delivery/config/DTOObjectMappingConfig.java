@@ -14,8 +14,16 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * COnfiguration class that configures the model <-> DTO mapper.
+ */
 @Configuration
 public class DTOObjectMappingConfig {
+
+    /**
+     * Builds a Mapper that maps any DTO to the corresponding model object and vice-versa.
+     * @return the mapper.
+     */
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper mapper =  new ModelMapper();

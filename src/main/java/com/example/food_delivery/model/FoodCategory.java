@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Represents the category to ehich a food belongs.
+ */
 @Entity
 @Table(name = "food_category")
 @AllArgsConstructor

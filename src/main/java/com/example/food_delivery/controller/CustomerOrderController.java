@@ -11,6 +11,8 @@ import com.example.food_delivery.service.customer_order_management.CustomerOrder
 import com.example.food_delivery.service.customer_order_management.exceptions.EmptyOrderException;
 import com.example.food_delivery.service.mailing_service.EmailTextGeneratorService;
 import com.example.food_delivery.service.mailing_service.MailingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,10 +34,13 @@ public class CustomerOrderController {
     @Autowired
     MailingService mailingService;
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomerOrderController.class);
+
     @PostMapping("/place_order")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public void placeOrder() throws EmptyOrderException, CartItemsFromMultipleRestaurantsException,
             AccessRestrictedToCustomersException {
+        logger.info("REQUEST - /place_order");
         FoodOrder order = customerOrdersService.placeOrder();
 
         String foodOrderEmailReport = emailTextGeneratorService.generateOrderEmailReport(order);
@@ -47,6 +52,7 @@ public class CustomerOrderController {
     @GetMapping("/get_my_order_history")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public List<CustomerOrderDTO> getMyOrderHistory() throws AccessRestrictedToCustomersException {
+        logger.info("REQUEST - /get_my_order_history");
         return customerOrdersService.getActiveCustomersOrderHistory();
     }
 }

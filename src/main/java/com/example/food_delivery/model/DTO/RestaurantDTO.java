@@ -8,6 +8,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
+/**
+ * DTO used for client-server communication, representing an Restaurant.
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

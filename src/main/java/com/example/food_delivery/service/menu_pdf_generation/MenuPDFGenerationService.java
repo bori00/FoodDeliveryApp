@@ -14,6 +14,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Service responsible for generating a pdf containing the menu of a restaurant.
+ */
 @Service
 public class MenuPDFGenerationService {
 
@@ -28,6 +31,14 @@ public class MenuPDFGenerationService {
     private static final String LOGO_PATH = "src/main/resources/img/menu.png";
 
 
+    /**
+     * Generates a PDF document representing a menu, for the restaurant with the given name and
+     * menu items.
+     * @param restaurantName is the name of the restaurant whose menu is generated.
+     * @param categoriesToFoodList is the map of food category names to the list of menu items in
+     *                            each category.
+     * @return the generated PDF document.
+     */
     public ByteArrayInputStream createMenuPDF(String restaurantName,
                                               Map<String, List<FoodDTO>> categoriesToFoodList)  {
         try {

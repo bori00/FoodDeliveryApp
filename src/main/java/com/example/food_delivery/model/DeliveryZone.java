@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Represents a geographical zone to which restaurants can deliver food.
+ */
 @Entity
 @Table(name = "delivery_zone")
 @AllArgsConstructor
