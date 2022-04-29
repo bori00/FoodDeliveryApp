@@ -17,6 +17,10 @@ import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+/**
+ * DTO used for client-server communication, representing an order, exposing data visible to the
+ * customer who placed the order.
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,6 +35,10 @@ public class CustomerOrderDTO {
     @JsonSerialize(keyUsing = FoodDTOSerializer.class)
     private Map<FoodDTO, Integer> orderedItemsToQuantity;
 
+    /**
+     * Custom serializer for sending the FoodDTO's in valid JSON format to the client instead of
+     * sending just their hash-identifiers.
+     */
     public static class FoodDTOSerializer extends JsonSerializer<FoodDTO> {
 
         private final ObjectMapper mapper = new ObjectMapper();

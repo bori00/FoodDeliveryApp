@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Class representing an item in a user's cart.
+ */
 @Entity
 @Table(name = "cart_item")
 @AllArgsConstructor
@@ -29,6 +32,12 @@ public class CartItem {
     @JoinColumn(name = "food_id", referencedColumnName = "Id")
     private Food food;
 
+    /**
+     * Builds a CartItem.
+     * @param quantity is the quantity of the food item that the user placed in the cart.
+     * @param customer is the user who placed the item in their cart.
+     * @param food is the menu item placed into the cart.
+     */
     public CartItem(Integer quantity, Customer customer, Food food) {
         this.quantity = quantity;
         this.customer = customer;

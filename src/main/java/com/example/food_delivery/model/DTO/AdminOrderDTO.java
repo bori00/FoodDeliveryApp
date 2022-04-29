@@ -15,6 +15,9 @@ import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+/**
+ * DTO used for client-server communication, representing an order, exposing data visible to admins.
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

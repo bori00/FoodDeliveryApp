@@ -15,6 +15,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
+/**
+ * DTO used for client-server communication, representing a menu item of a restaurant.
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

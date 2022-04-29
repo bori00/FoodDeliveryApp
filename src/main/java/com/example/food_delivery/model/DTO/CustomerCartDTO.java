@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;
 
+/**
+ * DTO used for client-server communication, representing the cart of a customer.
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,6 +27,10 @@ public class CustomerCartDTO {
     @JsonSerialize(keyUsing = FoodDTOSerializer.class)
     private Map<FoodDTO, Integer> selectedItemsToQuantity;
 
+    /**
+     * Custom serializer for sending the FoodDTO's in valid JSON format to the client instead of
+     * sending just their hash-identifiers.
+     */
     public static class FoodDTOSerializer extends JsonSerializer<FoodDTO> {
 
         private final ObjectMapper mapper = new ObjectMapper();

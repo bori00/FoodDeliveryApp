@@ -5,6 +5,9 @@ import lombok.*;
 
 import javax.persistence.*;
 
+/**
+ * Represents any user of the application.
+ */
 @Entity
 @Table(name = "user")
 @Getter

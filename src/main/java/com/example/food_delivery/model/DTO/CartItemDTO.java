@@ -9,6 +9,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
+/**
+ * DTO used for client-server communication, representing an item in the cart of a customer.
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
