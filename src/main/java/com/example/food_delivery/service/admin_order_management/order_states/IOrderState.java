@@ -27,7 +27,7 @@ public interface IOrderState {
         if (getAllowedTransitions().contains(status)) {
             order.setOrderStatus(status);
         } else {
-            logger.warn(String.format("INVALID UPDATE - attemted changing the status of order nr" +
+            logger.warn(String.format("INVALID UPDATE - attempted changing the status of order nr" +
                     ". %d from %s to %s", order.getId(), order.getOrderStatus(), status));
             throw new InvalidOrderStatusChangeException(getCorrespondingStatus(), status);
         }

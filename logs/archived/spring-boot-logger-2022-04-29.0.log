@@ -1,0 +1,137 @@
+2022-04-29 01:09:14,310 INFO org.hibernate.validator.internal.util.Version [background-preinit] HV000001: Hibernate Validator 6.2.3.Final
+2022-04-29 01:09:14,314 INFO org.springframework.boot.StartupInfoLogger [main] Starting FoodDeliveryApplication using Java 11.0.10 on DESKTOP-BORI with PID 15776 (C:\Users\Bori\Documents\Egyetem\year3_sem2\UniCourses\SoftwareDesign\FoodDeliveryApp\target\classes started by Bori in C:\Users\Bori\Documents\Egyetem\year3_sem2\UniCourses\SoftwareDesign\FoodDeliveryApp)
+2022-04-29 01:09:14,315 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2022-04-29 01:09:14,996 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-04-29 01:09:15,098 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 94 ms. Found 10 JPA repository interfaces.
+2022-04-29 01:09:15,550 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+2022-04-29 01:09:15,557 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2022-04-29 01:09:15,558 INFO org.apache.juli.logging.DirectJDKLog [main] Starting service [Tomcat]
+2022-04-29 01:09:15,558 INFO org.apache.juli.logging.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/9.0.60]
+2022-04-29 01:09:15,664 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2022-04-29 01:09:15,664 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 1303 ms
+2022-04-29 01:09:15,785 INFO org.hibernate.jpa.internal.util.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-04-29 01:09:15,820 INFO org.hibernate.Version [main] HHH000412: Hibernate ORM core version 5.6.7.Final
+2022-04-29 01:09:15,913 INFO org.hibernate.annotations.common.reflection.java.JavaReflectionManager [main] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-04-29 01:09:15,985 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2022-04-29 01:09:16,184 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2022-04-29 01:09:16,199 INFO org.hibernate.dialect.Dialect [main] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-04-29 01:09:16,919 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-04-29 01:09:16,927 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-04-29 01:09:17,224 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-04-29 01:09:17,972 INFO org.springframework.security.web.DefaultSecurityFilterChain [main] Will not secure any request
+2022-04-29 01:09:18,143 INFO org.apache.juli.logging.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2022-04-29 01:09:18,160 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path '/food-delivery'
+2022-04-29 01:09:18,169 INFO org.springframework.boot.StartupInfoLogger [main] Started FoodDeliveryApplication in 4.327 seconds (JVM running for 5.408)
+2022-04-29 01:09:25,140 INFO org.apache.juli.logging.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-04-29 01:09:25,140 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2022-04-29 01:09:25,141 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 1 ms
+2022-04-29 01:09:40,643 INFO com.example.food_delivery.service.admin_order_management.AdminOrderService [http-nio-8080-exec-10] UPDATE - Status of order 26 changed from PENDING to ACCEPTED
+
+2022-04-29 01:10:30,761 INFO com.example.food_delivery.service.admin_order_management.AdminOrderService [http-nio-8080-exec-2] UPDATE - Status of order 25 changed from ACCEPTED to IN_DELIVERY
+
+2022-04-29 01:10:56,127 INFO org.hibernate.validator.internal.util.Version [background-preinit] HV000001: Hibernate Validator 6.2.3.Final
+2022-04-29 01:10:56,130 INFO org.springframework.boot.StartupInfoLogger [main] Starting FoodDeliveryApplication using Java 11.0.10 on DESKTOP-BORI with PID 22572 (C:\Users\Bori\Documents\Egyetem\year3_sem2\UniCourses\SoftwareDesign\FoodDeliveryApp\target\classes started by Bori in C:\Users\Bori\Documents\Egyetem\year3_sem2\UniCourses\SoftwareDesign\FoodDeliveryApp)
+2022-04-29 01:10:56,131 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2022-04-29 01:10:56,759 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-04-29 01:10:56,850 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 85 ms. Found 10 JPA repository interfaces.
+2022-04-29 01:10:57,299 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+2022-04-29 01:10:57,305 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2022-04-29 01:10:57,306 INFO org.apache.juli.logging.DirectJDKLog [main] Starting service [Tomcat]
+2022-04-29 01:10:57,306 INFO org.apache.juli.logging.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/9.0.60]
+2022-04-29 01:10:57,413 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2022-04-29 01:10:57,413 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 1249 ms
+2022-04-29 01:10:57,533 INFO org.hibernate.jpa.internal.util.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-04-29 01:10:57,569 INFO org.hibernate.Version [main] HHH000412: Hibernate ORM core version 5.6.7.Final
+2022-04-29 01:10:57,663 INFO org.hibernate.annotations.common.reflection.java.JavaReflectionManager [main] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-04-29 01:10:57,734 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2022-04-29 01:10:57,925 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2022-04-29 01:10:57,941 INFO org.hibernate.dialect.Dialect [main] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-04-29 01:10:58,620 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-04-29 01:10:58,628 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-04-29 01:10:58,895 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-04-29 01:10:59,630 INFO org.springframework.security.web.DefaultSecurityFilterChain [main] Will not secure any request
+2022-04-29 01:10:59,783 INFO org.apache.juli.logging.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2022-04-29 01:10:59,797 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path '/food-delivery'
+2022-04-29 01:10:59,804 INFO org.springframework.boot.StartupInfoLogger [main] Started FoodDeliveryApplication in 4.059 seconds (JVM running for 4.954)
+2022-04-29 01:11:05,250 INFO org.apache.juli.logging.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-04-29 01:11:05,251 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2022-04-29 01:11:05,252 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 1 ms
+2022-04-29 01:11:05,437 INFO com.example.food_delivery.service.admin_order_management.AdminOrderService [http-nio-8080-exec-1] UPDATE - Status of order 25 changed from IN_DELIVERY to DELIVERED
+2022-04-29 01:11:11,233 INFO com.example.food_delivery.service.admin_order_management.AdminOrderService [http-nio-8080-exec-7] UPDATE - Status of order 26 changed from ACCEPTED to IN_DELIVERY
+2022-04-29 01:12:17,093 INFO org.springframework.boot.StartupInfoLogger [main] Starting FoodDeliveryApplication using Java 11.0.10 on DESKTOP-BORI with PID 10140 (C:\Users\Bori\Documents\Egyetem\year3_sem2\UniCourses\SoftwareDesign\FoodDeliveryApp\target\classes started by Bori in C:\Users\Bori\Documents\Egyetem\year3_sem2\UniCourses\SoftwareDesign\FoodDeliveryApp)
+2022-04-29 01:12:17,093 INFO org.hibernate.validator.internal.util.Version [background-preinit] HV000001: Hibernate Validator 6.2.3.Final
+2022-04-29 01:12:17,096 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2022-04-29 01:12:17,707 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-04-29 01:12:17,789 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 76 ms. Found 10 JPA repository interfaces.
+2022-04-29 01:12:18,175 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+2022-04-29 01:12:18,181 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2022-04-29 01:12:18,182 INFO org.apache.juli.logging.DirectJDKLog [main] Starting service [Tomcat]
+2022-04-29 01:12:18,182 INFO org.apache.juli.logging.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/9.0.60]
+2022-04-29 01:12:18,277 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2022-04-29 01:12:18,277 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 1147 ms
+2022-04-29 01:12:18,387 INFO org.hibernate.jpa.internal.util.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-04-29 01:12:18,420 INFO org.hibernate.Version [main] HHH000412: Hibernate ORM core version 5.6.7.Final
+2022-04-29 01:12:18,509 INFO org.hibernate.annotations.common.reflection.java.JavaReflectionManager [main] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-04-29 01:12:18,576 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2022-04-29 01:12:18,766 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2022-04-29 01:12:18,780 INFO org.hibernate.dialect.Dialect [main] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-04-29 01:12:19,421 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-04-29 01:12:19,427 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-04-29 01:12:19,685 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-04-29 01:12:20,398 INFO org.springframework.security.web.DefaultSecurityFilterChain [main] Will not secure any request
+2022-04-29 01:12:20,560 INFO org.apache.juli.logging.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2022-04-29 01:12:20,576 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path '/food-delivery'
+2022-04-29 01:12:20,584 INFO org.springframework.boot.StartupInfoLogger [main] Started FoodDeliveryApplication in 3.875 seconds (JVM running for 4.771)
+2022-04-29 01:12:39,609 INFO org.apache.juli.logging.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-04-29 01:12:39,610 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2022-04-29 01:12:39,611 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 1 ms
+2022-04-29 01:12:39,816 INFO com.example.food_delivery.service.admin_order_management.AdminOrderService [http-nio-8080-exec-1] UPDATE - Status of order 26 changed from IN_DELIVERY to DELIVERED
+2022-04-29 01:13:23,681 INFO com.example.food_delivery.service.admin_order_management.AdminOrderService [http-nio-8080-exec-10] UPDATE - Status of order 14 changed from IN_DELIVERY to DELIVERED
+2022-04-29 04:04:34,646 INFO org.hibernate.validator.internal.util.Version [background-preinit] HV000001: Hibernate Validator 6.2.3.Final
+2022-04-29 04:04:34,644 INFO org.springframework.boot.StartupInfoLogger [main] Starting FoodDeliveryApplication using Java 11.0.10 on DESKTOP-BORI with PID 20008 (C:\Users\Bori\Documents\Egyetem\year3_sem2\UniCourses\SoftwareDesign\FoodDeliveryApp\target\classes started by Bori in C:\Users\Bori\Documents\Egyetem\year3_sem2\UniCourses\SoftwareDesign\FoodDeliveryApp)
+2022-04-29 04:04:34,648 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2022-04-29 04:04:35,283 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-04-29 04:04:35,362 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 73 ms. Found 10 JPA repository interfaces.
+2022-04-29 04:04:35,800 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+2022-04-29 04:04:35,807 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2022-04-29 04:04:35,807 INFO org.apache.juli.logging.DirectJDKLog [main] Starting service [Tomcat]
+2022-04-29 04:04:35,808 INFO org.apache.juli.logging.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/9.0.60]
+2022-04-29 04:04:35,912 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2022-04-29 04:04:35,913 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 1224 ms
+2022-04-29 04:04:36,030 INFO org.hibernate.jpa.internal.util.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-04-29 04:04:36,065 INFO org.hibernate.Version [main] HHH000412: Hibernate ORM core version 5.6.7.Final
+2022-04-29 04:04:36,165 INFO org.hibernate.annotations.common.reflection.java.JavaReflectionManager [main] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-04-29 04:04:36,249 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2022-04-29 04:04:36,459 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2022-04-29 04:04:36,475 INFO org.hibernate.dialect.Dialect [main] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-04-29 04:04:37,253 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-04-29 04:04:37,259 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-04-29 04:04:37,528 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-04-29 04:04:38,281 INFO org.springframework.security.web.DefaultSecurityFilterChain [main] Will not secure any request
+2022-04-29 04:04:38,432 INFO org.apache.juli.logging.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2022-04-29 04:04:38,447 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path '/food-delivery'
+2022-04-29 04:04:38,453 INFO org.springframework.boot.StartupInfoLogger [main] Started FoodDeliveryApplication in 4.204 seconds (JVM running for 5.138)
+2022-04-29 04:45:29,933 INFO org.hibernate.validator.internal.util.Version [background-preinit] HV000001: Hibernate Validator 6.2.3.Final
+2022-04-29 04:45:29,933 INFO org.springframework.boot.StartupInfoLogger [main] Starting FoodDeliveryApplication using Java 11.0.10 on DESKTOP-BORI with PID 23944 (C:\Users\Bori\Documents\Egyetem\year3_sem2\UniCourses\SoftwareDesign\FoodDeliveryApp\target\classes started by Bori in C:\Users\Bori\Documents\Egyetem\year3_sem2\UniCourses\SoftwareDesign\FoodDeliveryApp)
+2022-04-29 04:45:29,938 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2022-04-29 04:45:30,610 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-04-29 04:45:30,700 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 84 ms. Found 10 JPA repository interfaces.
+2022-04-29 04:45:31,123 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+2022-04-29 04:45:31,129 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2022-04-29 04:45:31,130 INFO org.apache.juli.logging.DirectJDKLog [main] Starting service [Tomcat]
+2022-04-29 04:45:31,130 INFO org.apache.juli.logging.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/9.0.60]
+2022-04-29 04:45:31,236 INFO org.apache.juli.logging.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2022-04-29 04:45:31,236 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 1256 ms
+2022-04-29 04:45:31,356 INFO org.hibernate.jpa.internal.util.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-04-29 04:45:31,396 INFO org.hibernate.Version [main] HHH000412: Hibernate ORM core version 5.6.7.Final
+2022-04-29 04:45:31,516 INFO org.hibernate.annotations.common.reflection.java.JavaReflectionManager [main] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-04-29 04:45:31,594 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2022-04-29 04:45:31,795 INFO com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2022-04-29 04:45:31,811 INFO org.hibernate.dialect.Dialect [main] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-04-29 04:45:32,536 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-04-29 04:45:32,543 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-04-29 04:45:32,836 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-04-29 04:45:33,648 INFO org.springframework.security.web.DefaultSecurityFilterChain [main] Will not secure any request
+2022-04-29 04:45:33,814 INFO org.apache.juli.logging.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2022-04-29 04:45:33,830 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path '/food-delivery'
+2022-04-29 04:45:33,837 INFO org.springframework.boot.StartupInfoLogger [main] Started FoodDeliveryApplication in 4.305 seconds (JVM running for 5.254)

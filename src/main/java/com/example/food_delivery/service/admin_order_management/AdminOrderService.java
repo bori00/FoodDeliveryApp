@@ -87,11 +87,12 @@ public class AdminOrderService {
      * Updates the status of the order with the given id, to newStatus.
      * @param orderId is the identifier of the order whose state is to be updated.
      * @param newStatus is the status to be set for the order.
+     * @return the updated order, with the newStatus.
      * @throws AccessRestrictedToAdminsException if the currently logged in user is not an admin.
      * @throws RequestedOrderNotFoundException if no order with the given id is found.
      * @throws InvalidOrderStatusChangeException if the requested status transition is not allowed.
      */
-    public void updateOrderState(Long orderId, FoodOrder.OrderStatus newStatus) throws AccessRestrictedToAdminsException, RequestedOrderNotFoundException, InvalidOrderStatusChangeException {
+    public FoodOrder updateOrderState(Long orderId, FoodOrder.OrderStatus newStatus) throws AccessRestrictedToAdminsException, RequestedOrderNotFoundException, InvalidOrderStatusChangeException {
         // get active user
         RestaurantAdmin admin = authenticationService.getCurrentAdmin();
 
@@ -122,6 +123,6 @@ public class AdminOrderService {
         logger.info(String.format("UPDATE - Status of order %d changed from %s to %s",
                 order.getId(), prevStatus, newStatus));
 
-        foodOrderRepository.save(order);
+        return foodOrderRepository.save(order);
     }
 }
