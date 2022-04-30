@@ -46,4 +46,28 @@ public class CustomerCartDTO {
             gen.writeFieldName(writer.toString());
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CustomerCartDTO cartDTO = (CustomerCartDTO) o;
+
+        System.out.println("CHECK EQUALITY");
+
+        if (restaurantName != null ? !restaurantName.equals(cartDTO.restaurantName) : cartDTO.restaurantName != null)
+            return false;
+
+        System.out.println("CHECK EQUALITY");
+
+        return selectedItemsToQuantity != null ? selectedItemsToQuantity.equals(cartDTO.selectedItemsToQuantity) : cartDTO.selectedItemsToQuantity == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = restaurantName != null ? restaurantName.hashCode() : 0;
+        result = 31 * result + (selectedItemsToQuantity != null ? selectedItemsToQuantity.hashCode() : 0);
+        return result;
+    }
 }
