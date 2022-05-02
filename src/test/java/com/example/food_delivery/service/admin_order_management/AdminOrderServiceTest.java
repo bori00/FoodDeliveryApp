@@ -4,6 +4,8 @@ import com.example.food_delivery.FoodDeliveryApplication;
 import com.example.food_delivery.model.*;
 import com.example.food_delivery.model.DTO.AdminOrderDTO;
 import com.example.food_delivery.repository.FoodOrderRepository;
+import com.example.food_delivery.service.admin_order_management.exceptions.RequestedOrderNotFoundException;
+import com.example.food_delivery.service.admin_order_management.order_states.exceptions.InvalidOrderStatusChangeException;
 import com.example.food_delivery.service.authentication.AuthenticationService;
 import com.example.food_delivery.service.authentication.exceptions.AccessRestrictedToAdminsException;
 import com.example.food_delivery.service.restaurant_management.exceptions.NoRestaurantSetupForAdminException;
@@ -15,7 +17,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,10 +37,10 @@ class AdminOrderServiceTest {
     @Autowired
     private AdminOrderService adminOrderService;
 
-    @Autowired
+    @MockBean
     private AuthenticationService authenticationService;
 
-    @Autowired
+    @MockBean
     private FoodOrderRepository foodOrderRepository;
 
     private static final RestaurantAdmin ADMIN = new RestaurantAdmin("adminName", "adminPass",
@@ -85,9 +89,13 @@ class AdminOrderServiceTest {
         Mockito.when(foodOrderRepository.findAllByOrderStatusInAndRestaurantOrderByDateTimeDesc(Set.of(FoodOrder.OrderStatus.IN_DELIVERY), RESTAURANT)).thenReturn(
                 List.of(ORDER2, ORDER3, ORDER4));
 
-        Mockito.when(foodOrderRepository.findAllByOrderStatusInAndRestaurantOrderByDateTimeDesc(new HashSet<>(Arrays.asList(FoodOrder.OrderStatus.values()))
+        Mockito.when(foodOrderRepository.findAllByOrderStatusInAndRestaurantOrderByDateTimeDesc(Arrays.asList(FoodOrder.OrderStatus.values())
                 , RESTAURANT)).thenReturn(
                 List.of(ORDER1, ORDER2, ORDER3, ORDER4, ORDER5));
+
+        Mockito.when(foodOrderRepository.findById(1L)).thenReturn(Optional.of(ORDER1));
+
+        Mockito.when(foodOrderRepository.save(Mockito.any(FoodOrder.class))).thenAnswer(o -> o.getArguments()[0]);
     }
 
     @AfterEach
@@ -105,6 +113,40 @@ class AdminOrderServiceTest {
     }
 
     @Test
-    void updateOrderState() {
+    void getFilteredSortedRestaurantsOrders_allOrderStatuses() throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
+
+        List<AdminOrderDTO> orders =
+                adminOrderService.getFilteredSortedRestaurantsOrders(Arrays.asList(FoodOrder.OrderStatus.values()));
+
+        Assertions.assertIterableEquals(List.of(orderDTO1, orderDTO2, orderDTO3, orderDTO4,
+                orderDTO5), orders);
+
+    }
+
+    @Test
+    void getFilteredSortedRestaurantsOrders_anoOrderStatusConstraint() throws AccessRestrictedToAdminsException, NoRestaurantSetupForAdminException {
+
+        List<AdminOrderDTO> orders =
+                adminOrderService.getFilteredSortedRestaurantsOrders(new HashSet<>());
+
+        Assertions.assertIterableEquals(List.of(orderDTO1, orderDTO2, orderDTO3, orderDTO4,
+                orderDTO5), orders);
+
+    }
+
+    @Test
+    void updateOrderState_allowedTransition() throws InvalidOrderStatusChangeException, RequestedOrderNotFoundException, AccessRestrictedToAdminsException {
+        FoodOrder updatedOrder = adminOrderService.updateOrderState(1L,
+                FoodOrder.OrderStatus.ACCEPTED);
+
+        assertEquals(FoodOrder.OrderStatus.ACCEPTED, updatedOrder.getOrderStatus());
+    }
+
+    @Test
+    void updateOrderState_invalidTransition()  {
+        assertThrows(InvalidOrderStatusChangeException.class, () -> {
+            FoodOrder updatedOrder = adminOrderService.updateOrderState(1L,
+                    FoodOrder.OrderStatus.DELIVERED);
+        });
     }
 }
